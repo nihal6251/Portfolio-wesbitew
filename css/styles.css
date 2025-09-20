@@ -3,7 +3,7 @@
   /* Typography */
   --font-primary: 'Inter', sans-serif;
   --font-heading: 'Playfair Display', serif;
-  
+
   /* Spacing */
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
@@ -11,25 +11,25 @@
   --spacing-lg: 2rem;
   --spacing-xl: 3rem;
   --spacing-xxl: 4rem;
-  
+
   /* Border Radius */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 20px;
   --radius-round: 50%;
-  
+
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  
+
   /* Transitions */
   --transition-fast: 0.15s ease-out;
   --transition-normal: 0.3s ease-out;
   --transition-slow: 0.5s ease-out;
-  
+
   /* Z-index */
   --z-dropdown: 1000;
   --z-sticky: 1020;
@@ -63,19 +63,41 @@ body {
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
   font-weight: 600;
   line-height: 1.2;
   margin-bottom: var(--spacing-md);
 }
 
-h1 { font-size: clamp(2rem, 5vw, 4rem); }
-h2 { font-size: clamp(1.5rem, 4vw, 2.5rem); }
-h3 { font-size: clamp(1.25rem, 3vw, 1.75rem); }
-h4 { font-size: clamp(1.125rem, 2.5vw, 1.5rem); }
-h5 { font-size: 1.25rem; }
-h6 { font-size: 1.125rem; }
+h1 {
+  font-size: clamp(2rem, 5vw, 4rem);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+h3 {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+h4 {
+  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1.125rem;
+}
 
 p {
   margin-bottom: var(--spacing-md);
@@ -109,6 +131,107 @@ img {
 @media (max-width: 768px) {
   .container {
     padding: 0 var(--spacing-md);
+  }
+}
+
+/* photos animation section */
+/* // Replace the existing photos animation section with this: */
+
+/* Photos Animation Section - Infinite Scroll */
+/* // Replace the photos animation section (around lines 134-200) with this: */
+
+/* Photos Animation Section - Infinite Scroll */
+.photos-animation {
+  top: 63px;
+  height: 340 px;
+  width: 100%;
+  overflow: hidden;
+  padding: 2rem 0;
+  margin: 0;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+  z-index: 1000;
+}
+
+.photos-scroll-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.photos-scroll-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  /* Slow speed - 30 seconds for full cycle (REMOVED alternate) */
+  animation: scrollLeftToRight 15s linear infinite alternate;
+  /* On hover, pause the animation */
+  animation-play-state: running;
+  width: fit-content;
+}
+
+/* .photos-scroll-container:hover {
+  animation-play-state: paused;
+} */
+
+.photos-scroll-container img {
+  /* Same height for all images */
+  height: 40vh;
+  width: auto;
+  object-fit: cover;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-normal);
+
+}
+
+.photos-scroll-container img:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Keyframe animation - Left to Right movement (FIXED) */
+@keyframes scrollLeftToRight {
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+/* Mobile - Slower animation and smaller images (FIXED) */
+@media (max-width: 768px) {
+  .photos-animation {
+    padding: 1rem 0;
+  }
+
+  .photos-scroll-container {
+    animation: scrollLeftToRight 5s linear infinite alternate;
+    gap: 0.5rem;
+  }
+
+  .photos-scroll-container img {
+    height: 25vh;
+  }
+
+  .about {
+    padding-top: 92px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .photos-scroll-container {
+    gap: 0.75rem;
+  }
+
+  .photos-scroll-container img {
+    height: 42vh;
   }
 }
 
@@ -338,15 +461,15 @@ section {
   position: absolute;
 }
 
-.theme-switch-input:checked + .theme-switch-label .theme-switch-slider {
+.theme-switch-input:checked+.theme-switch-label .theme-switch-slider {
   transform: translateX(30px);
 }
 
-.theme-switch-input:checked + .theme-switch-label .theme-switch-slider .fa-moon {
+.theme-switch-input:checked+.theme-switch-label .theme-switch-slider .fa-moon {
   opacity: 0;
 }
 
-.theme-switch-input:checked + .theme-switch-label .theme-switch-slider .fa-sun {
+.theme-switch-input:checked+.theme-switch-label .theme-switch-slider .fa-sun {
   opacity: 1;
 }
 
@@ -386,11 +509,11 @@ section {
   .nav-container {
     padding: 1rem var(--spacing-md);
   }
-  
+
   .mobile-menu-toggle {
     display: flex;
   }
-  
+
   .nav-menu {
     position: fixed;
     top: 100%;
@@ -407,18 +530,18 @@ section {
     visibility: hidden;
     transition: all var(--transition-normal);
   }
-  
+
   .nav-menu.active {
     transform: translateY(0);
     opacity: 1;
     visibility: visible;
   }
-  
+
   .nav-link {
     padding: var(--spacing-md) 0;
     border-bottom: 1px solid var(--border-color);
   }
-  
+
   .nav-link:last-child {
     border-bottom: none;
   }
@@ -534,6 +657,7 @@ section {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -541,21 +665,31 @@ section {
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateX(-50%) translateY(0);
   }
+
   40% {
     transform: translateX(-50%) translateY(-10px);
   }
+
   60% {
     transform: translateX(-50%) translateY(-5px);
   }
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }
@@ -566,6 +700,7 @@ section {
     opacity: 0;
     transform: translateX(-30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -577,6 +712,7 @@ section {
     opacity: 0;
     transform: translateX(30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -589,31 +725,89 @@ section {
 }
 
 /* Utility Classes */
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
+.text-center {
+  text-align: center;
+}
 
-.d-flex { display: flex; }
-.d-block { display: block; }
-.d-none { display: none; }
+.text-left {
+  text-align: left;
+}
 
-.justify-center { justify-content: center; }
-.justify-between { justify-content: space-between; }
-.align-center { align-items: center; }
+.text-right {
+  text-align: right;
+}
 
-.mb-0 { margin-bottom: 0; }
-.mb-1 { margin-bottom: var(--spacing-xs); }
-.mb-2 { margin-bottom: var(--spacing-sm); }
-.mb-3 { margin-bottom: var(--spacing-md); }
-.mb-4 { margin-bottom: var(--spacing-lg); }
-.mb-5 { margin-bottom: var(--spacing-xl); }
+.d-flex {
+  display: flex;
+}
 
-.mt-0 { margin-top: 0; }
-.mt-1 { margin-top: var(--spacing-xs); }
-.mt-2 { margin-top: var(--spacing-sm); }
-.mt-3 { margin-top: var(--spacing-md); }
-.mt-4 { margin-top: var(--spacing-lg); }
-.mt-5 { margin-top: var(--spacing-xl); }
+.d-block {
+  display: block;
+}
+
+.d-none {
+  display: none;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.mb-1 {
+  margin-bottom: var(--spacing-xs);
+}
+
+.mb-2 {
+  margin-bottom: var(--spacing-sm);
+}
+
+.mb-3 {
+  margin-bottom: var(--spacing-md);
+}
+
+.mb-4 {
+  margin-bottom: var(--spacing-lg);
+}
+
+.mb-5 {
+  margin-bottom: var(--spacing-xl);
+}
+
+.mt-0 {
+  margin-top: 0;
+}
+
+.mt-1 {
+  margin-top: var(--spacing-xs);
+}
+
+.mt-2 {
+  margin-top: var(--spacing-sm);
+}
+
+.mt-3 {
+  margin-top: var(--spacing-md);
+}
+
+.mt-4 {
+  margin-top: var(--spacing-lg);
+}
+
+.mt-5 {
+  margin-top: var(--spacing-xl);
+}
 
 /* Responsive Design */
 @media (max-width: 480px) {
@@ -621,7 +815,7 @@ section {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .btn {
     width: 100%;
     max-width: 280px;
@@ -629,10 +823,10 @@ section {
 }
 
 /* ========================================
-   PORTFOLIO MODAL STYLES
+   PHOTOS MODAL STYLES
    ======================================== */
 
-/* Update portfolio view-gallery button */
+/* Update photos view-gallery button */
 .view-gallery {
   display: flex;
   align-items: center;
@@ -647,12 +841,13 @@ section {
   font-size: 1.2rem;
 }
 
-.portfolio-item:hover .view-gallery {
+
+.photos-item:hover .view-gallery {
   transform: translateY(-2px);
 }
 
-/* Portfolio Modal */
-.portfolio-modal {
+/* Photos Modal */
+.photos-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -665,7 +860,7 @@ section {
   padding: 2rem;
 }
 
-.portfolio-modal.active {
+.photos-modal.active {
   display: flex;
 }
 
@@ -1004,8 +1199,13 @@ section {
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
@@ -1013,6 +1213,7 @@ section {
     opacity: 0;
     transform: translateY(50px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1025,43 +1226,66 @@ section {
     width: 95vw;
     height: 90vh;
   }
-  
+
   .modal-header {
     padding: 1rem 1.5rem;
   }
-  
+
   .modal-title {
     font-size: 1.2rem;
   }
-  
+
   .image-container {
     padding: 1rem;
   }
-  
+
   .image-info {
     position: static;
     margin-top: 1rem;
     max-width: none;
   }
-  
+
   .nav-arrow {
     width: 40px;
     height: 40px;
   }
-  
+
   .zoom-btn {
     width: 35px;
     height: 35px;
     top: 1rem;
     right: 1rem;
   }
-  
+
   .modal-thumbnails {
     padding: 1rem;
   }
-  
+
   .thumbnail-item {
     width: 60px;
     height: 45px;
+  }
+}
+
+
+.loopvideo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+}
+
+.loopvideo video {
+  padding-top: 25px;
+  width: 500px;
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .loopvideo video {
+    padding-top: 25px;
+    width: 350px;
+    border-radius: 10px;
   }
 }

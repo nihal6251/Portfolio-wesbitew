@@ -1,29 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alex Rivers - Visual Storyteller</title>
-    <meta name="description" content="Professional photographer, cinematographer, and video editor specializing in visual storytelling">
-    
+    <title>Mehrajul karim - Visual Storyteller</title>
+    <meta name="description"
+        content="Professional photographer, cinematographer, and video editor specializing in visual storytelling">
+
     <!-- CSS Files -->
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/themes.css">
-    
+    <link rel="stylesheet" href="css/gallery.css">
+
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap"
+        rel="stylesheet">
 </head>
-<body class="dark-theme">
+
+<body class="light-theme">
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-brand">
-                <a href="#home">AR</a>
+                <a href="#home">MK</a>
             </div>
-            
+
+
+
+
+
+            <!-- Navigation Menu -->
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#photos" class="nav-link">Photos</a></li>
+                <li><a href="#videos" class="nav-link">Videos</a></li>
+                <li><a href="#experience" class="nav-link">Experience</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+
             <!-- Theme Toggle -->
             <div class="theme-toggle">
                 <input type="checkbox" id="theme-switch" class="theme-switch-input">
@@ -34,25 +54,16 @@
                     </span>
                 </label>
             </div>
-            
+
             <!-- Mobile Menu Toggle -->
             <button class="mobile-menu-toggle" id="mobile-menu-toggle">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-            
-            <!-- Navigation Menu -->
-            <ul class="nav-menu" id="nav-menu">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
-                <li><a href="#videos" class="nav-link">Videos</a></li>
-                <li><a href="#experience" class="nav-link">Experience</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-            </ul>
         </div>
     </nav>
+
 
     <!-- Home/Hero Section -->
     <section id="home" class="hero">
@@ -67,7 +78,7 @@
             <p class="hero-subtitle">Visual Storyteller</p>
             <p class="hero-description">Capturing moments, crafting stories, creating cinematic experiences</p>
             <div class="hero-cta">
-                <a href="#portfolio" class="btn btn-primary">View My Work</a>
+                <a href="#photos" class="btn btn-primary">View My Work</a>
                 <a href="#contact" class="btn btn-secondary">Get In Touch</a>
             </div>
         </div>
@@ -78,6 +89,32 @@
         </div>
     </section>
 
+    <!-- photos animation section -->
+    <section class="photos-animation">
+        <div class="photos-scroll-wrapper">
+            <div class="photos-scroll-container">
+                <!-- First set of images -->
+                <img src="assets/images/2.jpeg" alt="Photography work">
+                <img src="assets/images/3.jpeg" alt="Photography work">
+                <img src="assets/images/4.jpeg" alt="Photography work">
+                <img src="assets/images/5.jpeg" alt="Photography work">
+                <img src="assets/images/6.jpeg" alt="Photography work">
+
+                <!-- Duplicate set for seamless loop -->
+                <img src="assets/images/2.jpeg" alt="Photography work">
+                <img src="assets/images/3.jpeg" alt="Photography work">
+                <img src="assets/images/4.jpeg" alt="Photography work">
+                <img src="assets/images/5.jpeg" alt="Photography work">
+                <img src="assets/images/6.jpeg" alt="Photography work">
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
     <!-- About Section -->
     <section id="about" class="about">
         <div class="container">
@@ -85,21 +122,24 @@
                 <h2 class="section-title">About Me</h2>
                 <p class="section-subtitle">Passionate about visual storytelling</p>
             </div>
-            
+
             <div class="about-content">
                 <div class="about-image">
                     <img src="assets/images/1.jpeg" alt="Alex Rivers" class="profile-img">
                 </div>
-                
+
                 <div class="about-text">
                     <p class="bio">
-                        With over 8 years of experience in visual storytelling, I specialize in capturing the essence of moments through photography and bringing stories to life through cinematography and video editing. My work spans across commercial projects, documentaries, and artistic endeavors.
+                        With over 8 years of experience in visual storytelling, I specialize in capturing the essence of
+                        moments through photography and bringing stories to life through cinematography and video
+                        editing. My work spans across commercial projects, documentaries, and artistic endeavors.
                     </p>
-                    
+
                     <p class="bio">
-                        I believe that every frame tells a story, and my mission is to create compelling visual narratives that resonate with audiences and leave lasting impressions.
+                        I believe that every frame tells a story, and my mission is to create compelling visual
+                        narratives that resonate with audiences and leave lasting impressions.
                     </p>
-                    
+
                     <div class="skills">
                         <h3>Skills & Expertise</h3>
                         <div class="skills-grid">
@@ -134,44 +174,30 @@
         </div>
     </section>
 
-    <!-- Portfolio/Gallery Section -->
-    <section id="portfolio" class="portfolio">
+    <!-- Photos/Gallery Section -->
+    <section id="photos" class="photos">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Portfolio</h2>
+                <h2 class="section-title">Photos</h2>
                 <p class="section-subtitle">A collection of my finest work</p>
             </div>
-            
-            <div class="portfolio-filters">
+
+            <div class="photos-filters">
                 <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="portrait">Portrait</button>
-                <button class="filter-btn" data-filter="landscape">Landscape</button>
-                <button class="filter-btn" data-filter="commercial">Commercial</button>
-                <button class="filter-btn" data-filter="event">Event</button>
+                <a href="gallery.html?category=portrait" class="filter-btn" data-filter="portrait">Portrait</a>
+                <a href="gallery.html?category=landscape" class="filter-btn" data-filter="landscape">Landscape</a>
+                <a href="gallery.html?category=commercial" class="filter-btn" data-filter="commercial">Commercial</a>
+                <a href="gallery.html?category=event" class="filter-btn" data-filter="event">Event</a>
             </div>
-            
-            <div class="portfolio-grid">
-                <div class="portfolio-item" data-category="portrait" data-portfolio-category="portrait">
-                    <div class="portfolio-image">
-                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=600&fit=crop" alt="Portrait Photography">
-                        <div class="portfolio-overlay">
-                            <div class="portfolio-info">
-                                <h3>Creative Portrait</h3>
-                                <p>Studio Photography</p>
-                                <div class="view-gallery">
-                                    <i class="fas fa-images"></i>
-                                    <span>View Gallery</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="portfolio-item" data-category="landscape" data-portfolio-category="landscape">
-                    <div class="portfolio-image">
-                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop" alt="Landscape Photography">
-                        <div class="portfolio-overlay">
-                            <div class="portfolio-info">
+
+            <div class="photos-grid">
+
+                <a href="gallery.html?category=landscape" class="photos-item" data-category="landscape"
+                    data-photos-category="landscape">
+                    <div class="photos-image">
+                        <img src="assets/images/p2.jpeg" alt="Landscape Photography">
+                        <div class="photos-overlay">
+                            <div class="photos-info">
                                 <h3>Mountain Vista</h3>
                                 <p>Landscape Photography</p>
                                 <div class="view-gallery">
@@ -181,13 +207,15 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="portfolio-item" data-category="commercial" data-portfolio-category="commercial">
-                    <div class="portfolio-image">
-                        <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop" alt="Commercial Photography">
-                        <div class="portfolio-overlay">
-                            <div class="portfolio-info">
+                </a>
+
+                <a href="gallery.html?category=commercial" class="photos-item" data-category="commercial"
+                    data-photos-category="commercial">
+                    <div class="photos-image">
+                        <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop"
+                            alt="Commercial Photography">
+                        <div class="photos-overlay">
+                            <div class="photos-info">
                                 <h3>Brand Campaign</h3>
                                 <p>Commercial Photography</p>
                                 <div class="view-gallery">
@@ -197,13 +225,15 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="portfolio-item" data-category="event" data-portfolio-category="event">
-                    <div class="portfolio-image">
-                        <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400&h=600&fit=crop" alt="Event Photography">
-                        <div class="portfolio-overlay">
-                            <div class="portfolio-info">
+                </a>
+
+                <a href="gallery.html?category=event" class="photos-item" data-category="event"
+                    data-photos-category="event">
+                    <div class="photos-image">
+                        <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400&h=600&fit=crop"
+                            alt="Event Photography">
+                        <div class="photos-overlay">
+                            <div class="photos-info">
                                 <h3>Wedding Ceremony</h3>
                                 <p>Event Photography</p>
                                 <div class="view-gallery">
@@ -213,13 +243,15 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="portfolio-item" data-category="portrait" data-portfolio-category="portrait">
-                    <div class="portfolio-image">
-                        <img src="https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=600&h=400&fit=crop" alt="Portrait Photography">
-                        <div class="portfolio-overlay">
-                            <div class="portfolio-info">
+                </a>
+
+                <a href="gallery.html?category=portrait" class="photos-item" data-category="portrait"
+                    data-photos-category="portrait">
+                    <div class="photos-image">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop"
+                            alt="Portrait Photography">
+                        <div class="photos-overlay">
+                            <div class="photos-info">
                                 <h3>Environmental Portrait</h3>
                                 <p>Portrait Photography</p>
                                 <div class="view-gallery">
@@ -229,13 +261,31 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="portfolio-item" data-category="landscape" data-portfolio-category="landscape">
-                    <div class="portfolio-image">
-                        <img src="https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=400&h=600&fit=crop" alt="Landscape Photography">
-                        <div class="portfolio-overlay">
-                            <div class="portfolio-info">
+                </a>
+                <a href="gallery.html?category=portrait" class="photos-item" data-category="portrait"
+                    data-photos-category="portrait">
+                    <div class="photos-image">
+                        <img src="assets/images/p1.jpg" alt="Portrait Photography">
+                        <div class="photos-overlay">
+                            <div class="photos-info">
+                                <h3>Creative Portrait</h3>
+                                <p>Studio Photography</p>
+                                <div class="view-gallery">
+                                    <i class="fas fa-images"></i>
+                                    <span>View Gallery</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="gallery.html?category=landscape" class="photos-item" data-category="landscape"
+                    data-photos-category="landscape">
+                    <div class="photos-image">
+                        <img src="https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=400&h=600&fit=crop"
+                            alt="Landscape Photography">
+                        <div class="photos-overlay">
+                            <div class="photos-info">
                                 <h3>Urban Landscape</h3>
                                 <p>Landscape Photography</p>
                                 <div class="view-gallery">
@@ -245,7 +295,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
+
+
+
             </div>
         </div>
     </section>
@@ -257,11 +310,12 @@
                 <h2 class="section-title">Video Work</h2>
                 <p class="section-subtitle">Cinematic storytelling in motion</p>
             </div>
-            
+
             <div class="videos-grid">
                 <div class="video-item">
                     <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Sample Video 1" frameborder="0" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Sample Video 1" frameborder="0"
+                            allowfullscreen></iframe>
                     </div>
                     <div class="video-info">
                         <h3>Brand Documentary</h3>
@@ -272,10 +326,11 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="video-item">
                     <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Sample Video 2" frameborder="0" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Sample Video 2" frameborder="0"
+                            allowfullscreen></iframe>
                     </div>
                     <div class="video-info">
                         <h3>Wedding Highlights</h3>
@@ -286,10 +341,11 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="video-item">
                     <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Sample Video 3" frameborder="0" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Sample Video 3" frameborder="0"
+                            allowfullscreen></iframe>
                     </div>
                     <div class="video-info">
                         <h3>Commercial Spot</h3>
@@ -301,6 +357,11 @@
                     </div>
                 </div>
             </div>
+
+            <div class="loopvideo">
+                <video src="assets/videos/v1.mp4" autoplay loop muted playsinline></video>
+                <video src="assets/videos/v2.mp4" autoplay loop muted playsinline></video>
+            </div>
         </div>
     </section>
 
@@ -311,7 +372,7 @@
                 <h2 class="section-title">Experience</h2>
                 <p class="section-subtitle">Journey through my professional career</p>
             </div>
-            
+
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
@@ -319,7 +380,9 @@
                         <div class="timeline-date">2020 - Present</div>
                         <h3>Senior Visual Content Creator</h3>
                         <h4>Creative Studios Inc.</h4>
-                        <p>Leading visual content creation for major brand campaigns, managing a team of 5 creatives, and overseeing post-production workflows. Increased client satisfaction by 40% through innovative storytelling approaches.</p>
+                        <p>Leading visual content creation for major brand campaigns, managing a team of 5 creatives,
+                            and overseeing post-production workflows. Increased client satisfaction by 40% through
+                            innovative storytelling approaches.</p>
                         <div class="timeline-skills">
                             <span>Team Leadership</span>
                             <span>Brand Strategy</span>
@@ -327,14 +390,16 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
                     <div class="timeline-content">
                         <div class="timeline-date">2018 - 2020</div>
                         <h3>Freelance Cinematographer</h3>
                         <h4>Various Clients</h4>
-                        <p>Worked with diverse clients including Netflix, HBO, and independent filmmakers. Specialized in documentary cinematography and commercial video production with over 50 successful projects completed.</p>
+                        <p>Worked with diverse clients including Netflix, HBO, and independent filmmakers. Specialized
+                            in documentary cinematography and commercial video production with over 50 successful
+                            projects completed.</p>
                         <div class="timeline-skills">
                             <span>Documentary</span>
                             <span>Commercial</span>
@@ -342,14 +407,16 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
                     <div class="timeline-content">
                         <div class="timeline-date">2016 - 2018</div>
                         <h3>Video Editor & Motion Graphics Artist</h3>
                         <h4>Media Production House</h4>
-                        <p>Edited corporate videos, social media content, and promotional materials. Developed motion graphics templates that reduced production time by 30% while maintaining high creative standards.</p>
+                        <p>Edited corporate videos, social media content, and promotional materials. Developed motion
+                            graphics templates that reduced production time by 30% while maintaining high creative
+                            standards.</p>
                         <div class="timeline-skills">
                             <span>After Effects</span>
                             <span>Premiere Pro</span>
@@ -357,14 +424,16 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
                     <div class="timeline-content">
                         <div class="timeline-date">2015 - 2016</div>
                         <h3>Photography Assistant</h3>
                         <h4>Renowned Photography Studio</h4>
-                        <p>Assisted leading photographers in fashion and commercial shoots. Learned advanced lighting techniques and studio management while building a strong foundation in professional photography.</p>
+                        <p>Assisted leading photographers in fashion and commercial shoots. Learned advanced lighting
+                            techniques and studio management while building a strong foundation in professional
+                            photography.</p>
                         <div class="timeline-skills">
                             <span>Studio Lighting</span>
                             <span>Fashion Photography</span>
@@ -383,7 +452,7 @@
                 <h2 class="section-title">Let's Create Together</h2>
                 <p class="section-subtitle">Ready to bring your vision to life</p>
             </div>
-            
+
             <div class="contact-content">
                 <div class="contact-info">
                     <div class="contact-item">
@@ -393,7 +462,7 @@
                             <a href="mailto:alex@alexrivers.com">alex@alexrivers.com</a>
                         </div>
                     </div>
-                    
+
                     <div class="contact-item">
                         <i class="fas fa-phone"></i>
                         <div>
@@ -401,7 +470,7 @@
                             <a href="tel:+1234567890">+1 (234) 567-890</a>
                         </div>
                     </div>
-                    
+
                     <div class="contact-item">
                         <i class="fas fa-map-marker-alt"></i>
                         <div>
@@ -409,7 +478,7 @@
                             <p>Los Angeles, CA</p>
                         </div>
                     </div>
-                    
+
                     <div class="social-links">
                         <h3>Follow My Work</h3>
                         <div class="social-icons">
@@ -421,20 +490,20 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <form class="contact-form" id="contact-form">
                     <div class="form-group">
                         <input type="text" id="name" name="name" placeholder="Your Name" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <input type="email" id="email" name="email" placeholder="Your Email" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <input type="text" id="subject" name="subject" placeholder="Subject" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <select id="project-type" name="project-type" required>
                             <option value="">Select Project Type</option>
@@ -445,11 +514,12 @@
                             <option value="other">Other</option>
                         </select>
                     </div>
-                    
+
                     <div class="form-group">
-                        <textarea id="message" name="message" placeholder="Tell me about your project..." rows="6" required></textarea>
+                        <textarea id="message" name="message" placeholder="Tell me about your project..." rows="6"
+                            required></textarea>
                     </div>
-                    
+
                     <button type="submit" class="btn btn-primary">Send Message</button>
                 </form>
             </div>
@@ -464,95 +534,31 @@
                     <h3>Alex Rivers</h3>
                     <p>Visual Storyteller</p>
                 </div>
-                
+
                 <div class="footer-links">
                     <a href="#home">Home</a>
                     <a href="#about">About</a>
-                    <a href="#portfolio">Portfolio</a>
+                    <a href="#photos">Photos</a>
                     <a href="#contact">Contact</a>
                 </div>
-                
+
                 <div class="footer-social">
                     <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
                     <a href="#" class="social-icon"><i class="fab fa-behance"></i></a>
                     <a href="#" class="social-icon"><i class="fab fa-vimeo-v"></i></a>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
                 <p>&copy; 2025 Alex Rivers. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Portfolio Modal -->
-    <div id="portfolio-modal" class="portfolio-modal">
-        <div class="modal-overlay"></div>
-        <div class="modal-container">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h2 class="modal-title" id="modal-title">Portfolio Gallery</h2>
-                <button class="modal-close" id="modal-close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <!-- Main Image Display -->
-            <div class="modal-main-image">
-                <button class="nav-arrow nav-prev" id="prev-image">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                
-                <div class="image-container">
-                    <img id="modal-main-img" src="" alt="" class="main-image">
-                    <div class="image-info">
-                        <h3 id="image-title">Image Title</h3>
-                        <p id="image-description">Image description</p>
-                    </div>
-                    
-                    <!-- Zoom Button -->
-                    <button class="zoom-btn" id="zoom-btn">
-                        <i class="fas fa-search-plus"></i>
-                    </button>
-                </div>
-                
-                <button class="nav-arrow nav-next" id="next-image">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
-            
-            <!-- Thumbnail Navigation -->
-            <div class="modal-thumbnails">
-                <div class="thumbnails-container" id="thumbnails-container">
-                    <!-- Thumbnails will be populated by JavaScript -->
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Full Screen Zoom Modal -->
-    <div id="zoom-modal" class="zoom-modal">
-        <div class="zoom-overlay"></div>
-        <div class="zoom-container">
-            <button class="zoom-close" id="zoom-close">
-                <i class="fas fa-times"></i>
-            </button>
-            <img id="zoom-image" src="" alt="" class="zoom-image">
-            <div class="zoom-controls">
-                <button class="zoom-in" id="zoom-in">
-                    <i class="fas fa-plus"></i>
-                </button>
-                <button class="zoom-out" id="zoom-out">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button class="zoom-reset" id="zoom-reset">
-                    <i class="fas fa-expand-arrows-alt"></i>
-                </button>
-            </div>
-        </div>
-    </div>
 
     <!-- JavaScript Files -->
     <script src="js/main.js"></script>
 </body>
+
 </html>

@@ -1,16 +1,16 @@
 /* ========================================
    MAIN JAVASCRIPT FILE
-   Interactive functionality for portfolio website
+   Interactive functionality for photos website
    ======================================== */
 
 // Wait for DOM to be fully loaded
 /* ========================================
-   PORTFOLIO IMAGE DATA
+   PHOTOS IMAGE DATA
    ======================================== */
-const portfolioData = {
+const photosData = {
     portrait: [
         { id: 1, src: 'https://picsum.photos/800/1200?random=1', title: 'Creative Portrait I', description: 'Studio portrait with dramatic lighting' },
-        { id: 2, src: 'https://picsum.photos/800/1200?random=2', title: 'Creative Portrait II', description: 'Natural light portrait session' },
+        { id: 2, src: 'assets/images//p2.jpeg', title: 'Creative Portrait II', description: 'Natural light portrait session' },
         { id: 3, src: 'https://picsum.photos/800/1200?random=3', title: 'Fashion Portrait', description: 'High fashion editorial shoot' },
         { id: 4, src: 'https://picsum.photos/800/1200?random=4', title: 'Corporate Headshot', description: 'Professional business portrait' },
         { id: 5, src: 'https://picsum.photos/800/1200?random=5', title: 'Artistic Portrait', description: 'Fine art portrait with creative composition' },
@@ -27,7 +27,7 @@ const portfolioData = {
     ],
     landscape: [
         { id: 16, src: 'https://picsum.photos/1200/800?random=16', title: 'Mountain Vista', description: 'Majestic mountain landscape at sunrise' },
-        { id: 17, src: 'https://picsum.photos/1200/800?random=17', title: 'Ocean Waves', description: 'Dynamic seascape with crashing waves' },
+        { id: 17, src: 'assets/images//p2.jpeg', title: 'Ocean Waves', description: 'Dynamic seascape with crashing waves' },
         { id: 18, src: 'https://picsum.photos/1200/800?random=18', title: 'Forest Path', description: 'Mystical forest trail in autumn' },
         { id: 19, src: 'https://picsum.photos/1200/800?random=19', title: 'Desert Sunset', description: 'Golden hour in the desert landscape' },
         { id: 20, src: 'https://picsum.photos/1200/800?random=20', title: 'City Skyline', description: 'Urban landscape at twilight' },
@@ -83,14 +83,19 @@ document.addEventListener('DOMContentLoaded', function() {
     initThemeToggle();
     initMobileMenu();
     initSmoothScrolling();
-    initPortfolioFilters();
-    initPortfolioModal(); // Add modal initialization
+    initPhotosFilters();
+    
+    // Only initialize modal if it exists (main page only)
+    if (document.getElementById('photos-modal')) {
+        initPhotosModal();
+    }
+    
     initContactForm();
     initScrollAnimations();
     initActiveNavigation();
     initHeroVideo();
     
-    console.log('Portfolio website initialized successfully!');
+    console.log('Photos website initialized successfully!');
 });
 
 /* ========================================
@@ -100,8 +105,8 @@ function initThemeToggle() {
     const themeToggle = document.getElementById('theme-switch');
     const body = document.body;
     
-    // Check for saved theme preference or default to dark theme
-    const currentTheme = localStorage.getItem('theme') || 'dark';
+    // Check for saved theme preference or default to light theme
+    const currentTheme = localStorage.getItem('theme') || 'light';
     body.classList.remove('dark-theme', 'light-theme');
     body.classList.add(`${currentTheme}-theme`);
     
@@ -241,11 +246,11 @@ function initActiveNavigation() {
 }
 
 /* ========================================
-   PORTFOLIO FILTERING FUNCTIONALITY
+   PHOTOS FILTERING FUNCTIONALITY
    ======================================== */
-function initPortfolioFilters() {
+function initPhotosFilters() {
     const filterButtons = document.querySelectorAll('.filter-btn');
-    const portfolioItems = document.querySelectorAll('.portfolio-item');
+    const photosItems = document.querySelectorAll('.photos-item');
     
     filterButtons.forEach(button => {
         button.addEventListener('click', function() {
@@ -255,8 +260,8 @@ function initPortfolioFilters() {
             filterButtons.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
             
-            // Filter portfolio items with animation
-            portfolioItems.forEach(item => {
+            // Filter photos items with animation
+            photosItems.forEach(item => {
                 const category = item.getAttribute('data-category');
                 
                 if (filter === 'all' || category === filter) {
@@ -384,7 +389,7 @@ function initScrollAnimations() {
     }, observerOptions);
     
     // Observe elements for animation
-    const animateElements = document.querySelectorAll('.card, .portfolio-item, .video-item, .timeline-item');
+    const animateElements = document.querySelectorAll('.card, .photos-item, .video-item, .timeline-item');
     animateElements.forEach(el => {
         el.classList.add('animate-element');
         observer.observe(el);
@@ -416,16 +421,16 @@ function addScrollAnimationStyles() {
             transform: translateX(0);
         }
         
-        /* Stagger animation for portfolio items */
-        .portfolio-item.animate-element {
+        /* Stagger animation for photos items */
+        .photos-item.animate-element {
             transition-delay: var(--delay, 0s);
         }
     `;
     document.head.appendChild(style);
     
-    // Add stagger delays to portfolio items
-    const portfolioItems = document.querySelectorAll('.portfolio-item');
-    portfolioItems.forEach((item, index) => {
+    // Add stagger delays to photos items
+    const photosItems = document.querySelectorAll('.photos-item');
+    photosItems.forEach((item, index) => {
         item.style.setProperty('--delay', `${index * 0.1}s`);
     });
 }
@@ -602,16 +607,16 @@ function trapFocus(element) {
 }
 
 /* ========================================
-   PORTFOLIO MODAL FUNCTIONALITY
+   PHOTOS MODAL FUNCTIONALITY
    ======================================== */
 let currentCategory = '';
 let currentImageIndex = 0;
 let currentImages = [];
 let zoomLevel = 1;
 
-function initPortfolioModal() {
+function initPhotosModal() {
     // Get modal elements
-    const modal = document.getElementById('portfolio-modal');
+    const modal = document.getElementById('photos-modal');
     const zoomModal = document.getElementById('zoom-modal');
     const modalClose = document.getElementById('modal-close');
     const zoomClose = document.getElementById('zoom-close');
@@ -636,11 +641,11 @@ function initPortfolioModal() {
     const zoomOut = document.getElementById('zoom-out');
     const zoomReset = document.getElementById('zoom-reset');
     
-    // Add click handlers to portfolio items
-    const portfolioItems = document.querySelectorAll('.portfolio-item');
-    portfolioItems.forEach(item => {
+    // Add click handlers to photos items
+    const photosItems = document.querySelectorAll('.photos-item');
+    photosItems.forEach(item => {
         item.addEventListener('click', function() {
-            const category = this.getAttribute('data-portfolio-category');
+            const category = this.getAttribute('data-photos-category');
             openModal(category);
         });
         
@@ -705,7 +710,7 @@ function initPortfolioModal() {
     
     function openModal(category) {
         currentCategory = category;
-        currentImages = portfolioData[category] || [];
+        currentImages = photosData[category] || [];
         currentImageIndex = 0;
         
         if (currentImages.length === 0) {
@@ -922,16 +927,13 @@ window.addEventListener('themeChanged', function(e) {
 });
 
 // Performance monitoring (development only)
-if (process?.env?.NODE_ENV === 'development') {
-    // Monitor paint timing
-    window.addEventListener('load', function() {
-        if ('performance' in window) {
-            const perfData = performance.getEntriesByType('paint');
-            perfData.forEach(entry => {
-                console.log(`${entry.name}: ${entry.startTime}ms`);
-            });
-        }
-    });
-}
+window.addEventListener('load', function() {
+    if ('performance' in window) {
+        const perfData = performance.getEntriesByType('paint');
+        perfData.forEach(entry => {
+            console.log(`${entry.name}: ${entry.startTime}ms`);
+        });
+    }
+});
 
-console.log('Portfolio website JavaScript loaded successfully!');
+console.log('Photos website JavaScript loaded successfully!');
