@@ -40,6 +40,9 @@
     display: block;
   }
 
+
+
+
   /* Hide hover overlay on touch devices */
   .photos-overlay {
     display: none;
@@ -881,6 +884,12 @@
     column-gap: var(--spacing-md);
   }
 }
+
+  @media (min-width: 500px){
+    .photos-mobile-caption{
+      display: none;
+    }
+  }
 
 @media (max-width: 768px) {
   .hero-cta {
