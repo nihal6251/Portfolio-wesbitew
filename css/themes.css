@@ -391,7 +391,7 @@
   transition: opacity var(--transition-normal);
 }
 
-/* Mobile Caption - Always visible on mobile */
+/* Mobile Caption - Always visible on mobile
 .photos-mobile-caption {
   display: none;
   padding: var(--spacing-sm) 0;
@@ -409,7 +409,7 @@
   font-size: 0.875rem;
   margin: 0;
   color: var(--text-secondary);
-}
+} */
 
 .dark-theme .photos-overlay {
   background: rgba(26, 26, 26, 0.9);
