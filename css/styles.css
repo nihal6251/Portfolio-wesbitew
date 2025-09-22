@@ -105,7 +105,7 @@ p {
 }
 
 a {
-  color: #ffffff;
+  color: var(--accent-primary);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
@@ -364,14 +364,11 @@ section {
   font-family: var(--font-heading);
   font-size: 1.75rem;
   font-weight: 600;
-  color: var(--text-primary);
+  color: white;
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
-.nav-brand a:hover {
-  color: var(--accent-primary);
-}
 
 .nav-menu {
   display: flex;
@@ -381,7 +378,7 @@ section {
 }
 
 .nav-link {
-  color: var(--text-secondary);
+  color: white ;
   font-weight: 500;
   padding: 0.5rem 0;
   position: relative;
@@ -390,7 +387,7 @@ section {
 
 .nav-link:hover,
 .nav-link.active {
-  color: var(--accent-primary);
+  color: white;
 }
 
 .nav-link::after {
@@ -556,7 +553,7 @@ section {
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: white;
+  color: rgb(31 42 61);
   overflow: hidden;
 }
 
@@ -566,7 +563,6 @@ section {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: -2;
 }
 
 .hero-video {
@@ -575,6 +571,9 @@ section {
   object-fit: cover;
 }
 
+.hero-bg img{
+  margin-top: -150px;
+}
 .hero-overlay {
   position: absolute;
   top: 0;
@@ -606,14 +605,14 @@ section {
   font-size: clamp(1.25rem, 3vw, 2rem);
   font-weight: 300;
   margin-bottom: var(--spacing-lg);
-  color: rgba(255, 255, 255, 0.9);
+  color:rgb(31 42 61);
   animation: fadeInUp 1s ease-out 0.2s both;
 }
 
 .hero-description {
   font-size: 1.125rem;
   margin-bottom: var(--spacing-xl);
-  color: rgba(255, 255, 255, 0.8);
+  color: rgb(31 42 61);
   animation: fadeInUp 1s ease-out 0.4s both;
 }
 

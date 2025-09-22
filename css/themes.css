@@ -30,23 +30,26 @@
 
   /* Gradients - Simple and subtle */
   --gradient-primary: linear-gradient(135deg, #4a9eff 0%, #3b82f6 100%);
-  --gradient-secondary: linear-gradient(135deg, #2d2d2d 0%, #404  .photos-grid {
-    columns: 2;
-    column-gap: var(--spacing-md);
-  }
 
-  /* Show mobile caption on tablets and mobile */
-  .photos-mobile-caption {
-    display: block;
-  }
+  --gradient-secondary: linear-gradient(135deg, #2d2d2d 0%, #404 .photos-grid {
+      columns: 2;
+      column-gap: var(--spacing-md);
+    }
+
+    /* Show mobile caption on tablets and mobile */
+    .photos-mobile-caption {
+      display: block;
+    }
 
 
 
 
-  /* Hide hover overlay on touch devices */
-  .photos-overlay {
-    display: none;
-  }100%);
+    /* Hide hover overlay on touch devices */
+    .photos-overlay {
+      display: none;
+    }
+
+    100%);
   --gradient-text: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
   --gradient-card: linear-gradient(135deg, #2d2d2d 0%, #333333 100%);
 
@@ -203,9 +206,16 @@
   color: white;
 }
 
+
+
+
+
+
 /* ========================================
    SECTION-SPECIFIC THEME STYLES
    ======================================== */
+
+
 
 /* About Section */
 .about {
@@ -730,6 +740,30 @@
   background: var(--accent-primary);
 }
 
+
+/* Dark theme hero title color override */
+.dark-theme .hero-title {
+  /* color: #c30808 !important; */
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: rgb(31 42 61) !important;
+  background-clip: unset !important;
+}
+
+.dark-theme .hero-cta .btn.btn-primary {
+  background-color: rgb(31 42 61) !important;
+}
+
+.dark-theme .hero-cta .btn.btn-secondary {
+  color: rgb(31 42 61) !important;
+  border-color: rgb(31 42 61) !important;
+}
+
+.dark-theme .hero-cta .btn.btn-secondary:hover {
+  background-color: rgb(31 42 61) !important;
+  color : white  !important;
+}
+
 .contact-form {
   background: var(--card-bg);
   padding: var(--spacing-xl);
@@ -742,6 +776,8 @@
   background: var(--card-bg);
   border: 1px solid var(--border-color);
 }
+
+
 
 .form-group {
   margin-bottom: var(--spacing-lg);
@@ -885,11 +921,11 @@
   }
 }
 
-  @media (min-width: 500px){
-    .photos-mobile-caption{
-      display: none;
-    }
+@media (min-width: 500px) {
+  .photos-mobile-caption {
+    display: none;
   }
+}
 
 @media (max-width: 768px) {
   .hero-cta {
@@ -898,7 +934,7 @@
   }
 
   .photos-grid {
-    margin: 0 auto var(--spacing-xxl) auto; 
+    margin: 0 auto var(--spacing-xxl) auto;
     columns: 2;
     column-gap: var(--spacing-md);
   }
