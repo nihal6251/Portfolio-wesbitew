@@ -810,6 +810,7 @@ section {
 }
 
 /* Responsive Design */
+
 @media (max-width: 480px) {
   .hero {
     height: 660px;
@@ -832,7 +833,7 @@ section {
 
   .hero-bg img {
 
-    height: 96vh !important;
+    height: 121vh !important;
     width: 100vw !important;
     object-fit: cover !important;
     object-position: center 30% !important;
@@ -846,9 +847,10 @@ section {
 
   .btn {
     font-size: 12px;
-    width: 35%;
+    width: 40%;
     max-width: 280px;
   }
+
 }
 
 /* ========================================
