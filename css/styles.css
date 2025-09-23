@@ -378,7 +378,7 @@ section {
 }
 
 .nav-link {
-  color: white ;
+  color: white;
   font-weight: 500;
   padding: 0.5rem 0;
   position: relative;
@@ -571,9 +571,10 @@ section {
   object-fit: cover;
 }
 
-.hero-bg img{
+.hero-bg img {
   margin-top: -150px;
 }
+
 .hero-overlay {
   position: absolute;
   top: 0;
@@ -605,7 +606,7 @@ section {
   font-size: clamp(1.25rem, 3vw, 2rem);
   font-weight: 300;
   margin-bottom: var(--spacing-lg);
-  color:rgb(31 42 61);
+  color: rgb(31 42 61);
   animation: fadeInUp 1s ease-out 0.2s both;
 }
 
@@ -810,30 +811,35 @@ section {
 
 /* Responsive Design */
 @media (max-width: 480px) {
-  .hero{
-    height: 932px;
+  .hero {
+    height: 660px;
     padding-top: 0;
     padding-bottom: 0;
   }
-  .hero-title
-  {
+
+  .hero-title {
     font-size: 32px;
   }
 
-  .hero-subtitle, .hero-description
-  {
+  .hero-subtitle,
+  .hero-description {
     font-size: 12px;
   }
-  .hero-content{
-    margin-top: -376px;
-  }
-  .hero img{
 
-    height: 100%;
-    /* width: auto; */
+  .hero-content {
+    margin-top: -97px;
   }
+
+  .hero-bg img {
+
+    height: 96vh !important;
+    width: 100vw !important;
+    object-fit: cover !important;
+    object-position: center 30% !important;
+  }
+
   .hero-cta {
-    
+
     flex-direction: column;
     align-items: center;
   }
