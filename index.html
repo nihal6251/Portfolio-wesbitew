@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -94,10 +95,11 @@
                 <!-- First set of images -->
                 <img src="assets/images/animation/2.jpeg" alt="Photography work">
                 <img src="assets/images/animation/3.jpeg" alt="Photography work">
+                <img src="assets/images/animation/arch.png" alt="Photography work">
+                <img src="assets/images/animation/garden.png" alt="Photography work">
                 <img src="assets/images/animation/4.jpeg" alt="Photography work">
                 <img src="assets/images/animation/beach.jpg" alt="Photography work">
-                <img src="assets/images/animation/arch.jpeg" alt="Photography work">
-                <img src="assets/images/animation/garden.tif" alt="Photography work">
+
 
                 <!-- Duplicate set for seamless loop -->
                 <img src="assets/images/animation/2.jpeg" alt="Photography work">
@@ -185,111 +187,24 @@
 
             <div class="photos-filters">
                 <button class="filter-btn active" data-filter="all">All</button>
-                <a href="gallery.html?category=portrait" class="filter-btn" data-filter="portrait">Portrait</a>
-                <a href="gallery.html?category=landscape" class="filter-btn" data-filter="landscape">Landscape</a>
-                <a href="gallery.html?category=commercial" class="filter-btn" data-filter="commercial">Commercial</a>
-                <a href="gallery.html?category=event" class="filter-btn" data-filter="event">Event</a>
+                <button class="filter-btn" data-filter="portrait">Portrait</button>
+                <button class="filter-btn" data-filter="landscape">Landscape</button>
+                <button class="filter-btn" data-filter="events">Events</button>
+                <button class="filter-btn" data-filter="commercial">Commercial</button>
             </div>
 
-            <div class="photos-grid">
+            <div class="photos-grid" id="photos-grid">
 
-                <a href="gallery.html?category=landscape" class="photos-item" data-category="landscape"
-                    data-photos-category="landscape">
+                <!-- Portrait Photos -->
+                <div class="photos-item" data-category="portrait">
                     <div class="photos-image">
-                        <img src="assets/images/p2.jpeg" alt="Landscape Photography">
-                        <div class="photos-overlay">
-                            <div class="photos-info">
-                                <h3>Mountain Vista</h3>
-                                <p>Landscape Photography</p>
-                                <div class="view-gallery">
-                                    <i class="fas fa-images"></i>
-                                    <span>View Gallery</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="photos-mobile-caption">
-                        <h3>Mountain Vista</h3>
-                        <p>Landscape Photography</p>
-                    </div>
-                </a>
-
-                <a href="gallery.html?category=commercial" class="photos-item" data-category="commercial"
-                    data-photos-category="commercial">
-                    <div class="photos-image">
-                        <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop"
-                            alt="Commercial Photography">
-                        <div class="photos-overlay">
-                            <div class="photos-info">
-                                <h3>Brand Campaign</h3>
-                                <p>Commercial Photography</p>
-                                <div class="view-gallery">
-                                    <i class="fas fa-images"></i>
-                                    <span>View Gallery</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="photos-mobile-caption">
-                        <h3>Brand Campaign</h3>
-                        <p>Commercial Photography</p>
-                    </div>
-                </a>
-
-                <a href="gallery.html?category=event" class="photos-item" data-category="event"
-                    data-photos-category="event">
-                    <div class="photos-image">
-                        <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400&h=600&fit=crop"
-                            alt="Event Photography">
-                        <div class="photos-overlay">
-                            <div class="photos-info">
-                                <h3>Wedding Ceremony</h3>
-                                <p>Event Photography</p>
-                                <div class="view-gallery">
-                                    <i class="fas fa-images"></i>
-                                    <span>View Gallery</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="photos-mobile-caption">
-                        <h3>Wedding Ceremony</h3>
-                        <p>Event Photography</p>
-                    </div>
-                </a>
-
-                <a href="gallery.html?category=portrait" class="photos-item" data-category="portrait"
-                    data-photos-category="portrait">
-                    <div class="photos-image">
-                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop"
-                            alt="Portrait Photography">
-                        <div class="photos-overlay">
-                            <div class="photos-info">
-                                <h3>Environmental Portrait</h3>
-                                <p>Portrait Photography</p>
-                                <div class="view-gallery">
-                                    <i class="fas fa-images"></i>
-                                    <span>View Gallery</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="photos-mobile-caption">
-                        <h3>Environmental Portrait</h3>
-                        <p>Portrait Photography</p>
-                    </div>
-                </a>
-                <a href="gallery.html?category=portrait" class="photos-item" data-category="portrait"
-                    data-photos-category="portrait">
-                    <div class="photos-image">
-                        <img src="assets/images/p1.jpg" alt="Portrait Photography">
+                        <img src="assets/images/p1.jpg" alt="Creative Portrait">
                         <div class="photos-overlay">
                             <div class="photos-info">
                                 <h3>Creative Portrait</h3>
                                 <p>Studio Photography</p>
-                                <div class="view-gallery">
-                                    <i class="fas fa-images"></i>
-                                    <span>View Gallery</span>
+                                <div class="photos-link">
+                                    <i class="fas fa-expand"></i>
                                 </div>
                             </div>
                         </div>
@@ -298,32 +213,305 @@
                         <h3>Creative Portrait</h3>
                         <p>Studio Photography</p>
                     </div>
-                </a>
+                </div>
 
-                <a href="gallery.html?category=landscape" class="photos-item" data-category="landscape"
-                    data-photos-category="landscape">
+                <div class="photos-item" data-category="portrait">
                     <div class="photos-image">
-                        <img src="https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=400&h=600&fit=crop"
-                            alt="Landscape Photography">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=800&fit=crop" alt="Environmental Portrait">
+                        <div class="photos-overlay">
+                            <div class="photos-info">
+                                <h3>Environmental Portrait</h3>
+                                <p>Portrait Photography</p>
+                                <div class="photos-link">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="photos-mobile-caption">
+                        <h3>Environmental Portrait</h3>
+                        <p>Portrait Photography</p>
+                    </div>
+                </div>
+
+                <div class="photos-item" data-category="portrait">
+                    <div class="photos-image">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=900&fit=crop" alt="Portrait Photography">
+                        <div class="photos-overlay">
+                            <div class="photos-info">
+                                <h3>Classic Portrait</h3>
+                                <p>Portrait Photography</p>
+                                <div class="photos-link">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="photos-mobile-caption">
+                        <h3>Classic Portrait</h3>
+                        <p>Portrait Photography</p>
+                    </div>
+                </div>
+
+                <!-- Landscape Photos -->
+                <div class="photos-item" data-category="landscape">
+                    <div class="photos-image">
+                        <img src="assets/images/p2.jpeg" alt="Mountain Vista">
+                        <div class="photos-overlay">
+                            <div class="photos-info">
+                                <h3>Mountain Vista</h3>
+                                <p>Landscape Photography</p>
+                                <div class="photos-link">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="photos-mobile-caption">
+                        <h3>Mountain Vista</h3>
+                        <p>Landscape Photography</p>
+                    </div>
+                </div>
+
+                <div class="photos-item" data-category="landscape">
+                    <div class="photos-image">
+                        <img src="https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=800&h=600&fit=crop" alt="Urban Landscape">
                         <div class="photos-overlay">
                             <div class="photos-info">
                                 <h3>Urban Landscape</h3>
-                                <p>Landscape Photography</p>
-                                <div class="view-gallery">
-                                    <i class="fas fa-images"></i>
-                                    <span>View Gallery</span>
+                                <p>Cityscape Photography</p>
+                                <div class="photos-link">
+                                    <i class="fas fa-expand"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="photos-mobile-caption">
                         <h3>Urban Landscape</h3>
+                        <p>Cityscape Photography</p>
+                    </div>
+                </div>
+
+                <div class="photos-item" data-category="landscape">
+                    <div class="photos-image">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&h=500&fit=crop" alt="Nature Landscape">
+                        <div class="photos-overlay">
+                            <div class="photos-info">
+                                <h3>Nature Vista</h3>
+                                <p>Landscape Photography</p>
+                                <div class="photos-link">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="photos-mobile-caption">
+                        <h3>Nature Vista</h3>
                         <p>Landscape Photography</p>
                     </div>
-                </a>
+                </div>
 
+                <!-- Events Photos -->
+                <div class="photos-item" data-category="events">
+                    <div class="photos-image">
+                        <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&h=900&fit=crop" alt="Wedding Ceremony">
+                        <div class="photos-overlay">
+                            <div class="photos-info">
+                                <h3>Wedding Ceremony</h3>
+                                <p>Event Photography</p>
+                                <div class="photos-link">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="photos-mobile-caption">
+                        <h3>Wedding Ceremony</h3>
+                        <p>Event Photography</p>
+                    </div>
+                </div>
 
+                <div class="photos-item" data-category="events">
+                    <div class="photos-image">
+                        <img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=800&h=600&fit=crop" alt="Concert Event">
+                        <div class="photos-overlay">
+                            <div class="photos-info">
+                                <h3>Live Concert</h3>
+                                <p>Event Photography</p>
+                                <div class="photos-link">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="photos-mobile-caption">
+                        <h3>Live Concert</h3>
+                        <p>Event Photography</p>
+                    </div>
+                </div>
 
+                <div class="photos-item" data-category="events">
+                    <div class="photos-image">
+                        <img src="https://images.unsplash.com/photo-1464207687429-7505649dae38?w=700&h=800&fit=crop" alt="Corporate Event">
+                        <div class="photos-overlay">
+                            <div class="photos-info">
+                                <h3>Corporate Event</h3>
+                                <p>Event Photography</p>
+                                <div class="photos-link">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="photos-mobile-caption">
+                        <h3>Corporate Event</h3>
+                        <p>Event Photography</p>
+                    </div>
+                </div>
+
+                <!-- Commercial Photos -->
+                <div class="photos-item" data-category="commercial">
+                    <div class="photos-image">
+                        <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=800&fit=crop" alt="Brand Campaign">
+                        <div class="photos-overlay">
+                            <div class="photos-info">
+                                <h3>Brand Campaign</h3>
+                                <p>Commercial Photography</p>
+                                <div class="photos-link">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="photos-mobile-caption">
+                        <h3>Brand Campaign</h3>
+                        <p>Commercial Photography</p>
+                    </div>
+                </div>
+
+                <div class="photos-item" data-category="commercial">
+                    <div class="photos-image">
+                        <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&h=600&fit=crop" alt="Product Photography">
+                        <div class="photos-overlay">
+                            <div class="photos-info">
+                                <h3>Product Showcase</h3>
+                                <p>Commercial Photography</p>
+                                <div class="photos-link">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="photos-mobile-caption">
+                        <h3>Product Showcase</h3>
+                        <p>Commercial Photography</p>
+                    </div>
+                </div>
+
+                <div class="photos-item" data-category="commercial">
+                    <div class="photos-image">
+                        <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=700&h=900&fit=crop" alt="Fashion Commercial">
+                        <div class="photos-overlay">
+                            <div class="photos-info">
+                                <h3>Fashion Campaign</h3>
+                                <p>Commercial Photography</p>
+                                <div class="photos-link">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="photos-mobile-caption">
+                        <h3>Fashion Campaign</h3>
+                        <p>Commercial Photography</p>
+                    </div>
+                </div>
+
+                <!-- Additional photos that will be shown with "See More" -->
+                <div class="photos-item" data-category="portrait">
+                    <div class="photos-image">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&h=800&fit=crop" alt="Male Portrait">
+                        <div class="photos-overlay">
+                            <div class="photos-info">
+                                <h3>Professional Portrait</h3>
+                                <p>Portrait Photography</p>
+                                <div class="photos-link">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="photos-mobile-caption">
+                        <h3>Professional Portrait</h3>
+                        <p>Portrait Photography</p>
+                    </div>
+                </div>
+
+                <div class="photos-item" data-category="landscape">
+                    <div class="photos-image">
+                        <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&h=600&fit=crop" alt="Ocean Landscape">
+                        <div class="photos-overlay">
+                            <div class="photos-info">
+                                <h3>Ocean View</h3>
+                                <p>Landscape Photography</p>
+                                <div class="photos-link">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="photos-mobile-caption">
+                        <h3>Ocean View</h3>
+                        <p>Landscape Photography</p>
+                    </div>
+                </div>
+
+                <div class="photos-item" data-category="events">
+                    <div class="photos-image">
+                        <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=700&h=800&fit=crop" alt="Party Event">
+                        <div class="photos-overlay">
+                            <div class="photos-info">
+                                <h3>Celebration Party</h3>
+                                <p>Event Photography</p>
+                                <div class="photos-link">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="photos-mobile-caption">
+                        <h3>Celebration Party</h3>
+                        <p>Event Photography</p>
+                    </div>
+                </div>
+
+                <div class="photos-item" data-category="commercial">
+                    <div class="photos-image">
+                        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=700&fit=crop" alt="Architecture Commercial">
+                        <div class="photos-overlay">
+                            <div class="photos-info">
+                                <h3>Architecture Shoot</h3>
+                                <p>Commercial Photography</p>
+                                <div class="photos-link">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="photos-mobile-caption">
+                        <h3>Architecture Shoot</h3>
+                        <p>Commercial Photography</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- See More Button -->
+            <div class="photos-see-more" id="photos-see-more">
+                <button class="btn btn-primary see-more-btn">
+                    <span>See More</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
             </div>
         </div>
     </section>

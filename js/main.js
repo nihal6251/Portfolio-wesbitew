@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initMobileMenu();
     initSmoothScrolling();
     initPhotosFilters();
+    initPhotosSwipe(); // Add swipe gesture support
     
     // Only initialize modal if it exists (main page only)
     if (document.getElementById('photos-modal')) {
@@ -250,35 +251,217 @@ function initActiveNavigation() {
    ======================================== */
 function initPhotosFilters() {
     const filterButtons = document.querySelectorAll('.filter-btn');
+    const photosGrid = document.getElementById('photos-grid');
     const photosItems = document.querySelectorAll('.photos-item');
+    const seeMoreBtn = document.querySelector('.see-more-btn');
     
+    if (!filterButtons.length || !photosGrid || !photosItems.length) {
+        console.warn('Photos filter elements not found');
+        return;
+    }
+    
+    let currentFilter = 'all';
+    let showingAll = false;
+    
+    // Get responsive photo limits
+    function getPhotoLimit() {
+        const width = window.innerWidth;
+        if (width >= 1025) return 12;
+        if (width >= 769) return 8;
+        return 6;
+    }
+    
+    // Filter and display photos
+    function filterPhotos(filter) {
+        currentFilter = filter;
+        showingAll = false;
+        
+        // Add filtering class for animation
+        photosItems.forEach(item => {
+            item.classList.add('filtering-out');
+        });
+        
+        setTimeout(() => {
+            const limit = getPhotoLimit();
+            let visibleCount = 0;
+            
+            photosItems.forEach(item => {
+                const category = item.getAttribute('data-category');
+                const shouldShow = filter === 'all' || category === filter;
+                
+                if (shouldShow && visibleCount < limit) {
+                    item.style.display = 'inline-block';
+                    item.classList.remove('filtering-out');
+                    item.classList.add('filtering-in');
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                    item.classList.remove('filtering-out', 'filtering-in');
+                }
+            });
+            
+            // Show/hide see more button
+            const totalPhotos = Array.from(photosItems).filter(item => {
+                const category = item.getAttribute('data-category');
+                return filter === 'all' || category === filter;
+            }).length;
+            
+            if (totalPhotos > limit) {
+                seeMoreBtn.parentElement.style.display = 'block';
+                seeMoreBtn.querySelector('span').textContent = 'See More';
+                seeMoreBtn.querySelector('i').className = 'fas fa-chevron-down';
+            } else {
+                seeMoreBtn.parentElement.style.display = 'none';
+            }
+        }, 150);
+    }
+    
+    // Handle filter button clicks
     filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
             const filter = this.getAttribute('data-filter');
             
             // Update active filter button
             filterButtons.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
             
-            // Filter photos items with animation
-            photosItems.forEach(item => {
-                const category = item.getAttribute('data-category');
-                
-                if (filter === 'all' || category === filter) {
-                    item.style.display = 'block';
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                        item.style.transform = 'scale(1)';
-                    }, 10);
-                } else {
-                    item.style.opacity = '0';
-                    item.style.transform = 'scale(0.8)';
-                    setTimeout(() => {
-                        item.style.display = 'none';
-                    }, 300);
-                }
-            });
+            // Filter photos
+            filterPhotos(filter);
         });
+    });
+    
+    // Handle see more button
+    if (seeMoreBtn) {
+        seeMoreBtn.addEventListener('click', function() {
+            if (!showingAll) {
+                // Show all photos for current filter
+                showingAll = true;
+                
+                photosItems.forEach(item => {
+                    const category = item.getAttribute('data-category');
+                    const shouldShow = currentFilter === 'all' || category === currentFilter;
+                    
+                    if (shouldShow) {
+                        item.style.display = 'inline-block';
+                        item.classList.remove('filtering-out');
+                        item.classList.add('filtering-in');
+                    }
+                });
+                
+                this.querySelector('span').textContent = 'Show Less';
+                this.querySelector('i').className = 'fas fa-chevron-up';
+            } else {
+                // Show limited photos again
+                filterPhotos(currentFilter);
+            }
+        });
+    }
+    
+    // Initialize with 'all' filter
+    filterPhotos('all');
+    
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        if (!showingAll) {
+            filterPhotos(currentFilter);
+        }
+    });
+}
+
+/* ========================================
+   PHOTOS SWIPE GESTURE FUNCTIONALITY
+   ======================================== */
+function initPhotosSwipe() {
+    const photosSection = document.getElementById('photos');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    
+    if (!photosSection || window.innerWidth > 768) return; // Only on mobile
+    
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let touchStartY = 0;
+    let touchEndY = 0;
+    
+    const categories = ['all', 'portrait', 'landscape', 'events', 'commercial'];
+    let currentCategoryIndex = 0;
+    
+    // Get current active category index
+    function getCurrentCategoryIndex() {
+        const activeBtn = document.querySelector('.filter-btn.active');
+        const activeFilter = activeBtn.getAttribute('data-filter');
+        return categories.indexOf(activeFilter);
+    }
+    
+    // Switch to category by index
+    function switchToCategory(index) {
+        if (index >= 0 && index < categories.length) {
+            const targetBtn = document.querySelector(`[data-filter="${categories[index]}"]`);
+            if (targetBtn) {
+                targetBtn.click();
+                currentCategoryIndex = index;
+            }
+        }
+    }
+    
+    photosSection.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+    
+    photosSection.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        touchEndY = e.changedTouches[0].screenY;
+        
+        const swipeDistanceX = touchEndX - touchStartX;
+        const swipeDistanceY = touchEndY - touchStartY;
+        
+        // Check if it's a horizontal swipe (not vertical scroll)
+        if (Math.abs(swipeDistanceX) > Math.abs(swipeDistanceY) && Math.abs(swipeDistanceX) > 50) {
+            currentCategoryIndex = getCurrentCategoryIndex();
+            
+            if (swipeDistanceX > 0) {
+                // Swipe right - previous category
+                if (currentCategoryIndex > 0) {
+                    switchToCategory(currentCategoryIndex - 1);
+                }
+            } else {
+                // Swipe left - next category
+                if (currentCategoryIndex < categories.length - 1) {
+                    switchToCategory(currentCategoryIndex + 1);
+                }
+            }
+        }
+    }, { passive: true });
+    
+    // Add visual feedback for swipe
+    photosSection.addEventListener('touchmove', function(e) {
+        const currentX = e.changedTouches[0].screenX;
+        const currentY = e.changedTouches[0].screenY;
+        const deltaX = currentX - touchStartX;
+        const deltaY = currentY - touchStartY;
+        
+        // Only provide visual feedback for horizontal swipes
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
+            photosSection.style.transform = `translateX(${deltaX * 0.1}px)`;
+            photosSection.style.transition = 'none';
+        }
+    }, { passive: true });
+    
+    // Reset transform after touch ends
+    photosSection.addEventListener('touchend', function() {
+        photosSection.style.transform = '';
+        photosSection.style.transition = 'transform 0.3s ease';
+    }, { passive: true });
+    
+    // Re-initialize on window resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            // Remove mobile swipe functionality on desktop
+            photosSection.style.transform = '';
+            photosSection.style.transition = '';
+        }
     });
 }
 

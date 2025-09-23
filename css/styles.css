@@ -211,12 +211,14 @@ img {
   }
 
   .photos-scroll-container {
-    animation: scrollLeftToRight 5s linear infinite alternate;
+    animation: scrollLeftToRight 15s linear infinite alternate;
     gap: 0.5rem;
+    width: fit-content;
   }
 
   .photos-scroll-container img {
     height: 25vh;
+
   }
 
   .about {
@@ -404,6 +406,22 @@ section {
 .nav-link:hover::after,
 .nav-link.active::after {
   width: 100%;
+}
+
+/* Make navbar scroll with content on mobile */
+@media (max-width: 768px) {
+    .navbar {
+        position: relative !important;
+        top: auto !important;
+    }
+    
+    body {
+        padding-top: 0 !important;
+    }
+    
+    .hero {
+        margin-top: 0 !important;
+    }
 }
 
 /* Theme Toggle */

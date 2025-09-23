@@ -349,7 +349,7 @@
   column-gap: var(--spacing-lg);
   /* margin: 0 auto var(--spacing-xxl) auto; */
   margin: 0px -139px auto auto;
-  /* margin: auto; */
+  margin: auto;
   width: 100%;
   max-width: 1200px;
   column-fill: balance;
@@ -361,9 +361,56 @@
   position: relative;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: transform var(--transition-normal);
+  transition: all var(--transition-normal);
   display: inline-block;
   width: 100%;
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Photo filtering animations */
+.photos-item.filtering-out {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s ease-in-out;
+}
+
+.photos-item.filtering-in {
+  opacity: 1;
+  transform: scale(1);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Photos section touch feedback */
+.photos {
+  transition: transform 0.3s ease;
+}
+
+/* Filter buttons enhancement */
+.photos-filters {
+  margin-bottom: var(--spacing-xxl);
+  position: relative;
+}
+
+.filter-btn {
+  position: relative;
+  transition: all var(--transition-normal);
+}
+
+.filter-btn::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: var(--accent-primary);
+  transition: width var(--transition-normal);
+}
+
+.filter-btn.active::after {
+  width: 80%;
 }
 
 .photos-item:hover {
@@ -469,6 +516,34 @@
   background: rgba(255, 255, 255, 0.3);
   transform: scale(1.1);
 }
+
+/* See More Button */
+.photos-see-more {
+  text-align: center;
+  margin-top: var(--spacing-xl);
+}
+
+.see-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  transition: all var(--transition-normal);
+}
+
+.see-more-btn i {
+  transition: transform var(--transition-normal);
+}
+
+.see-more-btn:hover i {
+  transform: translateY(2px);
+}
+
+.see-more-btn.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Photo count limits are handled by JavaScript */
 
 /* Videos Section */
 .videos {
@@ -948,7 +1023,7 @@
   }
 
   .photos-filters {
-    justify-content: flex-start;
+    align-items: center;
     overflow-x: auto;
     padding-bottom: var(--spacing-sm);
   }
