@@ -810,13 +810,37 @@ section {
 
 /* Responsive Design */
 @media (max-width: 480px) {
+  .hero{
+    height: 932px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .hero-title
+  {
+    font-size: 32px;
+  }
+
+  .hero-subtitle, .hero-description
+  {
+    font-size: 12px;
+  }
+  .hero-content{
+    margin-top: -376px;
+  }
+  .hero img{
+
+    height: 100%;
+    /* width: auto; */
+  }
   .hero-cta {
+    
     flex-direction: column;
     align-items: center;
   }
 
   .btn {
-    width: 100%;
+    font-size: 12px;
+    width: 35%;
     max-width: 280px;
   }
 }
