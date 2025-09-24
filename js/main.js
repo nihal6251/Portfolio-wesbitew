@@ -91,6 +91,9 @@ document.addEventListener('DOMContentLoaded', function() {
         initPhotosModal();
     }
     
+    // Initialize animation photos lightbox
+    initAnimationPhotosLightbox();
+    
     initContactForm();
     initScrollAnimations();
     initActiveNavigation();
@@ -1099,6 +1102,204 @@ window.addEventListener('unhandledrejection', function(e) {
     console.error('Unhandled promise rejection:', e.reason);
     e.preventDefault(); // Prevent default browser behavior
 });
+
+/* ========================================
+   PHOTOS LIGHTBOX FUNCTIONALITY (ANIMATION + GRID)
+   ======================================== */
+function initAnimationPhotosLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxClose = document.getElementById('lightbox-close');
+    const lightboxOverlay = lightbox?.querySelector('.lightbox-overlay');
+    const lightboxPrev = document.getElementById('lightbox-prev');
+    const lightboxNext = document.getElementById('lightbox-next');
+    const lightboxImage = document.getElementById('lightbox-image');
+    
+    if (!lightbox) {
+        console.warn('Lightbox element not found');
+        return;
+    }
+    
+    let currentImages = [];
+    let currentIndex = 0;
+    let currentImageType = 'animation'; // 'animation' or 'gallery'
+    
+    // Make animation photos clickable
+    function setupAnimationPhotos() {
+        const animationPhotos = document.querySelectorAll('.photos-scroll-container img');
+        
+        animationPhotos.forEach((photo, index) => {
+            photo.style.cursor = 'pointer';
+            photo.addEventListener('click', (e) => {
+                e.stopPropagation();
+                // Pause the animation when lightbox opens
+                const container = document.querySelector('.photos-scroll-container');
+                if (container) {
+                    container.style.animationPlayState = 'paused';
+                }
+                
+                // Create animation images array
+                currentImages = Array.from(animationPhotos).map((img, i) => ({
+                    src: img.src,
+                    alt: img.alt || `Animation Photo ${i + 1}`
+                }));
+                currentImageType = 'animation';
+                openLightbox(index);
+            });
+        });
+    }
+    
+    // Make gallery photos clickable
+    function setupGalleryPhotos() {
+        const galleryPhotos = document.querySelectorAll('.photos-item .photos-image img');
+        
+        galleryPhotos.forEach((photo, index) => {
+            photo.style.cursor = 'pointer';
+            photo.addEventListener('click', (e) => {
+                e.stopPropagation();
+                
+                // Get currently visible photos only
+                const visibleItems = Array.from(document.querySelectorAll('.photos-item')).filter(item => 
+                    getComputedStyle(item).display !== 'none'
+                );
+                
+                // Create gallery images array from visible photos
+                currentImages = visibleItems.map((item, i) => {
+                    const img = item.querySelector('.photos-image img');
+                    return {
+                        src: img.src,
+                        alt: img.alt || `Gallery Photo ${i + 1}`
+                    };
+                });
+                
+                // Find the index of clicked photo in visible photos
+                const clickedItem = photo.closest('.photos-item');
+                const clickedIndex = visibleItems.indexOf(clickedItem);
+                
+                currentImageType = 'gallery';
+                openLightbox(clickedIndex !== -1 ? clickedIndex : 0);
+            });
+        });
+    }
+    
+    // Re-setup gallery photos when filters change
+    function setupGalleryFilters() {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                setTimeout(setupGalleryPhotos, 100); // Wait for filter to apply
+            });
+        });
+    }
+    
+    // Open lightbox at specific index
+    function openLightbox(index) {
+        currentIndex = index;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        displayCurrentImage();
+    }
+    
+    // Display current image
+    function displayCurrentImage() {
+        if (currentIndex < 0 || currentIndex >= currentImages.length) return;
+        
+        const image = currentImages[currentIndex];
+        lightboxImage.src = image.src;
+        lightboxImage.alt = image.alt;
+        
+        // Show/hide navigation buttons based on image count
+        if (lightboxPrev) lightboxPrev.style.display = currentImages.length > 1 ? 'block' : 'none';
+        if (lightboxNext) lightboxNext.style.display = currentImages.length > 1 ? 'block' : 'none';
+    }
+    
+    // Close lightbox
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+        
+        // Resume animation when lightbox closes (only for animation photos)
+        if (currentImageType === 'animation') {
+            const container = document.querySelector('.photos-scroll-container');
+            if (container) {
+                container.style.animationPlayState = 'running';
+            }
+        }
+    }
+    
+    // Navigate lightbox
+    function navigateLightbox(direction) {
+        currentIndex += direction;
+        
+        // Loop around if we reach the ends
+        if (currentIndex >= currentImages.length) {
+            currentIndex = 0;
+        } else if (currentIndex < 0) {
+            currentIndex = currentImages.length - 1;
+        }
+        
+        displayCurrentImage();
+    }
+    
+    // Event listeners
+    if (lightboxClose) {
+        lightboxClose.addEventListener('click', closeLightbox);
+    }
+    
+    if (lightboxOverlay) {
+        lightboxOverlay.addEventListener('click', closeLightbox);
+    }
+    
+    if (lightboxPrev) {
+        lightboxPrev.addEventListener('click', () => navigateLightbox(-1));
+    }
+    
+    if (lightboxNext) {
+        lightboxNext.addEventListener('click', () => navigateLightbox(1));
+    }
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (!lightbox.classList.contains('active')) return;
+        
+        switch(e.key) {
+            case 'Escape':
+                closeLightbox();
+                break;
+            case 'ArrowLeft':
+                navigateLightbox(-1);
+                break;
+            case 'ArrowRight':
+                navigateLightbox(1);
+                break;
+        }
+    });
+    
+    // Touch/swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    lightbox.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    lightbox.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        const swipeDistance = touchEndX - touchStartX;
+        
+        if (Math.abs(swipeDistance) > 50) {
+            if (swipeDistance > 0) {
+                navigateLightbox(-1); // Swipe right - previous
+            } else {
+                navigateLightbox(1); // Swipe left - next
+            }
+        }
+    }, { passive: true });
+    
+    // Initialize all photo handlers
+    setupAnimationPhotos();
+    setupGalleryPhotos();
+    setupGalleryFilters();
+}
 
 /* ========================================
    DEVELOPMENT HELPERS

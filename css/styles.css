@@ -141,8 +141,7 @@ img {
 /* // Replace the photos animation section (around lines 134-200) with this: */
 
 /* Photos Animation Section - Infinite Scroll */
-.photos-animation {
-  top: 63px;
+.photos-animation { 
   height: 340 px;
   width: 100%;
   overflow: hidden;
@@ -196,7 +195,7 @@ img {
 /* Keyframe animation - Left to Right movement (FIXED) */
 @keyframes scrollLeftToRight {
   0% {
-    transform: translateX(-50%);
+    transform: translateX(-100%);
   }
 
   100% {
