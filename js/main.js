@@ -476,84 +476,18 @@ function initContactForm() {
     
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+            // Let Netlify handle the form submission naturally
+            // Just show a loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
             
-            // Get form data
-            const formData = new FormData(this);
-            const formObject = {};
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
             
-            formData.forEach((value, key) => {
-                formObject[key] = value;
-            });
-            
-            // Validate form
-            if (validateForm(formObject)) {
-                // Simulate form submission
-                showFormStatus('success', 'Thank you! Your message has been sent successfully.');
-                this.reset();
-            } else {
-                showFormStatus('error', 'Please fill in all required fields correctly.');
-            }
+            // Netlify will handle the actual submission
+            // The page will redirect to a success page or back to form
         });
     }
-}
-
-function validateForm(data) {
-    const requiredFields = ['name', 'email', 'subject', 'project-type', 'message'];
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
-    // Check required fields
-    for (let field of requiredFields) {
-        if (!data[field] || data[field].trim() === '') {
-            return false;
-        }
-    }
-    
-    // Validate email format
-    if (!emailRegex.test(data.email)) {
-        return false;
-    }
-    
-    return true;
-}
-
-function showFormStatus(type, message) {
-    // Remove existing status messages
-    const existingStatus = document.querySelector('.form-status');
-    if (existingStatus) {
-        existingStatus.remove();
-    }
-    
-    // Create status message element
-    const statusDiv = document.createElement('div');
-    statusDiv.className = `form-status form-status-${type}`;
-    statusDiv.textContent = message;
-    
-    // Add styles for status message
-    statusDiv.style.cssText = `
-        padding: 1rem;
-        margin-top: 1rem;
-        border-radius: 8px;
-        font-weight: 500;
-        text-align: center;
-        transition: all 0.3s ease;
-        ${type === 'success' 
-            ? 'background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0;' 
-            : 'background: #fef2f2; color: #dc2626; border: 1px solid #fecaca;'
-        }
-    `;
-    
-    // Add to form
-    const contactForm = document.getElementById('contact-form');
-    contactForm.appendChild(statusDiv);
-    
-    // Remove message after 5 seconds
-    setTimeout(() => {
-        if (statusDiv.parentNode) {
-            statusDiv.style.opacity = '0';
-            setTimeout(() => statusDiv.remove(), 300);
-        }
-    }, 5000);
 }
 
 /* ========================================
