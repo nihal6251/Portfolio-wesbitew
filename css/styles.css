@@ -141,7 +141,7 @@ img {
 /* // Replace the photos animation section (around lines 134-200) with this: */
 
 /* Photos Animation Section - Infinite Scroll */
-.photos-animation { 
+.photos-animation {
   height: 340 px;
   width: 100%;
   overflow: hidden;
@@ -340,12 +340,23 @@ section {
 }
 
 /* Navigation */
+
+@media (min-width : 768px){
+  .navbar,
+body.light-theme .navbar,
+body.dark-theme .navbar {
+  background-color: black;
+  opacity: 0.3;
+  color: white;
+}
+  
+}
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  background: var(--nav-bg);
+  background: var(--glass-bg);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-color);
   z-index: var(--z-fixed);
@@ -365,7 +376,7 @@ section {
   font-family: var(--font-heading);
   font-size: 1.75rem;
   font-weight: 600;
-  color: white;
+  color:white;
   text-decoration: none;
   transition: color var(--transition-fast);
 }
@@ -388,7 +399,7 @@ section {
 
 .nav-link:hover,
 .nav-link.active {
-  color: white;
+  color: var(--accent-primary);
 }
 
 .nav-link::after {
@@ -409,18 +420,18 @@ section {
 
 /* Make navbar scroll with content on mobile */
 @media (max-width: 768px) {
-    .navbar {
-        position: relative !important;
-        top: auto !important;
-    }
-    
-    body {
-        padding-top: 0 !important;
-    }
-    
-    .hero {
-        margin-top: 0 !important;
-    }
+  .navbar {
+    position: relative !important;
+    top: auto !important;
+  }
+
+  body {
+    padding-top: 0 !important;
+  }
+
+  .hero {
+    margin-top: 0 !important;
+  }
 }
 
 /* Theme Toggle */
@@ -533,7 +544,7 @@ section {
     top: 100%;
     left: 0;
     right: 0;
-    background: var(--nav-bg);
+    background: rgba(0, 0, 0, 0.95) !important;
     backdrop-filter: blur(20px);
     flex-direction: column;
     padding: var(--spacing-lg);
