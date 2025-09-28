@@ -596,7 +596,13 @@
                 </div>
 
                 <!-- Contact Form -->
-                <form class="contact-form" id="contact-form">
+                <form class="contact-form" id="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+                    <!-- Hidden fields for Netlify -->
+                    <input type="hidden" name="form-name" value="contact">
+                    <p style="display: none;">
+                        <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+                    </p>
+                    
                     <p>Share your vision</p>
 
                     <div class="form-group">
@@ -608,23 +614,18 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="text" id="subject" name="subject" placeholder="Subject" required>
-                    </div>
-
-                    <div class="form-group">
                         <select id="project-type" name="project-type" required>
                             <option value="">Select Project Type</option>
-                            <option value="photography">Photography</option>
-                            <option value="cinematography">Cinematography</option>
-                            <option value="edition">Editing</option>
-                            <option value="Full Package">Full-Package</option>
-                            <option value="other">Other</option>
+                            <option value="Photography">Photography</option>
+                            <option value="Cinematography">Cinematography</option>
+                            <option value="Editing">Editing</option>
+                            <option value="Full Package">Full Package</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <textarea id="message" name="message" placeholder="Tell me about your project..." rows="6"
-                            required></textarea>
+                        <textarea id="message" name="message" placeholder="Tell me about your project..." rows="6" required></textarea>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Send Message</button>
