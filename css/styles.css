@@ -165,7 +165,7 @@ img {
   align-items: center;
   gap: 1rem;
   /* Slow speed - 30 seconds for full cycle (REMOVED alternate) */
-  animation: scrollLeftToRight 20s linear infinite alternate;
+  animation: scrollLeftToRight 40s linear infinite alternate;
   /* On hover, pause the animation */
   animation-play-state: running;
   width: calc(100% + 200px);
@@ -429,7 +429,7 @@ section {
 
 .nav-link:hover,
 .nav-link.active {
-  color: var(--accent-primary);
+  color: rgb(156, 156, 156);
 }
 
 .nav-link::after {

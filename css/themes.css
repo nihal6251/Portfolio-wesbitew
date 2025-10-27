@@ -215,10 +215,10 @@
 }
 
 .about-content {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 1px;
-  align-items: start;
+  display: flex;
+  gap: 4%;
+  align-items: center;
+  justify-content: center;
 }
 
 .about-image {
@@ -227,7 +227,8 @@
 
 .profile-img {
 
-  height: 57vh;
+    height: 57vh;
+    width: 130vw;
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-card);
   transition: transform var(--transition-normal);
@@ -239,6 +240,11 @@
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+  }
+
+  .profile-img {
+   height: 60vh;
+   width: auto  ;
   }
 
   .about-text {
