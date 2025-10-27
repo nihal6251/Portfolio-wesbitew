@@ -1,0 +1,38 @@
+# Netlify Configuration for Portfolio Website
+# This file optimizes asset delivery and caching
+
+[build]
+  publish = "."
+
+# Cache headers for static assets
+# Images should be cached for 1 year (immutable)
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+  Cache-Control = "public, max-age=31536000, immutable"
+
+# CSS and JS files cached for 1 year
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+  Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+  Cache-Control = "public, max-age=31536000, immutable"
+
+# HTML files cached for 5 minutes (allows quick updates)
+[[headers]]
+  for = "/*"
+  [headers.values]
+  Cache-Control = "public, max-age=300"
+
+# Enable compression
+[[headers]]
+  for = "/*"
+  [headers.values]
+  X-Content-Type-Options = "nosniff"
+  X-Frame-Options = "DENY"
+  X-XSS-Protection = "1; mode=block"
+  Referrer-Policy = "strict-origin-when-cross-origin"
