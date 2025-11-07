@@ -1107,7 +1107,7 @@
 
   .photos-grid {
     margin: 0 auto var(--spacing-xxl) auto;
-    columns: 1;
+    columns: 2;
   }
 
   .timeline-item {
