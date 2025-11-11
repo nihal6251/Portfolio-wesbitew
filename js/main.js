@@ -572,15 +572,16 @@ function initPhotosFilters() {
     if (seeMoreBtn) {
         seeMoreBtn.addEventListener('click', async function() {
             if (isMobile()) {
-                // Check if we're in "show less" mode
+                // Check if we're in "show less" mode - always allow this without disabling
                 if (showingAll) {
                     // Show less - reset to high-priority only
                     filterPhotos(currentFilter);
+                    // Scroll to top of photos section
+                    document.getElementById('photos').scrollIntoView({ behavior: 'smooth', block: 'start' });
                     return;
                 }
                 
-                // Disable button during loading
-                this.disabled = true;
+                // Don't disable button - keep it interactive
                 this.classList.add('loading');
                 
                 // Mobile behavior: show 6 more low-priority images at a time
@@ -603,14 +604,8 @@ function initPhotosFilters() {
                     imagesToLoad.push(lowPriorityItems[i].querySelector('img'));
                 }
                 
-                // Load images with spinners
-                await loadImagesWithSpinners(imagesToLoad);
-                
+                // Update state immediately so Show Less is available
                 lowPriorityShownCount = endIndex;
-                
-                // Re-enable button
-                this.disabled = false;
-                this.classList.remove('loading');
                 
                 // Check if all low-priority images are shown
                 if (lowPriorityShownCount >= lowPriorityItems.length) {
@@ -618,11 +613,16 @@ function initPhotosFilters() {
                     this.querySelector('span').textContent = 'Show Less';
                     this.querySelector('i').className = 'fas fa-chevron-up';
                 }
+                
+                // Load images with spinners (don't await - let it happen in background)
+                loadImagesWithSpinners(imagesToLoad).finally(() => {
+                    this.classList.remove('loading');
+                });
+                
             } else {
                 // Desktop/tablet behavior: show all or show less
                 if (!showingAll) {
-                    // Disable button during loading
-                    this.disabled = true;
+                    // Don't disable button - keep it interactive
                     this.classList.add('loading');
                     
                     // Show all photos for current filter
@@ -645,18 +645,20 @@ function initPhotosFilters() {
                         }
                     });
                     
-                    // Load images with spinners
-                    await loadImagesWithSpinners(imagesToLoad);
-                    
-                    // Re-enable button
-                    this.disabled = false;
-                    this.classList.remove('loading');
-                    
+                    // Update button text immediately
                     this.querySelector('span').textContent = 'Show Less';
                     this.querySelector('i').className = 'fas fa-chevron-up';
+                    
+                    // Load images with spinners (don't await - let it happen in background)
+                    loadImagesWithSpinners(imagesToLoad).finally(() => {
+                        this.classList.remove('loading');
+                    });
+                    
                 } else {
                     // Show limited photos again
                     filterPhotos(currentFilter);
+                    // Scroll to top of photos section
+                    document.getElementById('photos').scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             }
         });

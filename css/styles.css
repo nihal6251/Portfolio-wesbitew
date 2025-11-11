@@ -900,7 +900,7 @@ section {
 
   .hero-bg img {
 
-    height: 121vh !important;
+    height: 110vh !important;
     width: 100vw !important;
     object-fit: cover !important;
     object-position: center 30% !important;
