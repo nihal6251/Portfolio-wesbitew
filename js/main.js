@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initMobileMenu();
     initSmoothScrolling();
     initPhotosFilters();
-    initPhotosSwipe(); // Add swipe gesture support
+    // initPhotosSwipe(); // Disabled - was causing automatic category switching on mobile scroll
     
     // Only initialize modal if it exists (main page only)
     if (document.getElementById('photos-modal')) {
