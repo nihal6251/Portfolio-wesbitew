@@ -604,12 +604,11 @@ section {
 
 /* Hero Section */
 .hero {
+  padding: 0;
   position: relative;
   height: 100vh;
   min-height: 600px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   text-align: center;
   color: rgb(31 42 61);
   overflow: hidden;
@@ -619,8 +618,9 @@ section {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
 }
 
 .hero-video {
@@ -630,6 +630,9 @@ section {
 }
 
 .hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   margin-top: -150px;
 }
 
@@ -640,13 +643,18 @@ section {
   right: 0;
   bottom: 0;
   background: var(--hero-overlay);
-  z-index: -1;
+  z-index: 1;
 }
 
 .hero-content {
-  z-index: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
   max-width: 800px;
   padding: 0 var(--spacing-lg);
+  width: 100%;
 }
 
 .hero-title {
@@ -688,6 +696,7 @@ section {
   bottom: var(--spacing-lg);
   left: 50%;
   transform: translateX(-50%);
+  z-index: 10;
   animation: bounce 2s infinite;
 }
 
@@ -1401,8 +1410,13 @@ section {
   align-items: center;
   justify-content: center;
   background: var(--card-background);
-  z-index: 10;
+  z-index: 1;
   transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Hero section spinner should not block content */
+.hero-bg .image-loading-spinner {
+  z-index: 0;
 }
 
 .image-loading-spinner.hidden {
