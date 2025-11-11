@@ -265,6 +265,12 @@ function initPhotosFilters() {
     
     let currentFilter = 'all';
     let showingAll = false;
+    let lowPriorityShownCount = 0; // Track how many low-priority images are shown on mobile
+    
+    // Check if mobile (max-width: 480px)
+    function isMobile() {
+        return window.innerWidth <= 480;
+    }
     
     // Get responsive photo limits
     function getPhotoLimit() {
@@ -278,6 +284,7 @@ function initPhotosFilters() {
     function filterPhotos(filter) {
         currentFilter = filter;
         showingAll = false;
+        lowPriorityShownCount = 0; // Reset counter
         
         // Add filtering class for animation
         photosItems.forEach(item => {
@@ -288,20 +295,39 @@ function initPhotosFilters() {
             const limit = getPhotoLimit();
             let visibleCount = 0;
             
-            photosItems.forEach(item => {
-                const category = item.getAttribute('data-category');
-                const shouldShow = filter === 'all' || category === filter;
-                
-                if (shouldShow && visibleCount < limit) {
-                    item.style.display = 'inline-block';
-                    item.classList.remove('filtering-out');
-                    item.classList.add('filtering-in');
-                    visibleCount++;
-                } else {
-                    item.style.display = 'none';
-                    item.classList.remove('filtering-out', 'filtering-in');
-                }
-            });
+            // On mobile, show all high-priority images first
+            if (isMobile()) {
+                photosItems.forEach(item => {
+                    const category = item.getAttribute('data-category');
+                    const priority = item.getAttribute('data-priority');
+                    const shouldShow = filter === 'all' || category === filter;
+                    
+                    if (shouldShow && priority === 'high') {
+                        item.style.display = 'inline-block';
+                        item.classList.remove('filtering-out');
+                        item.classList.add('filtering-in');
+                    } else {
+                        item.style.display = 'none';
+                        item.classList.remove('filtering-out', 'filtering-in');
+                    }
+                });
+            } else {
+                // Desktop/tablet: original behavior
+                photosItems.forEach(item => {
+                    const category = item.getAttribute('data-category');
+                    const shouldShow = filter === 'all' || category === filter;
+                    
+                    if (shouldShow && visibleCount < limit) {
+                        item.style.display = 'inline-block';
+                        item.classList.remove('filtering-out');
+                        item.classList.add('filtering-in');
+                        visibleCount++;
+                    } else {
+                        item.style.display = 'none';
+                        item.classList.remove('filtering-out', 'filtering-in');
+                    }
+                });
+            }
             
             // Show/hide see more button
             const totalPhotos = Array.from(photosItems).filter(item => {
@@ -309,12 +335,31 @@ function initPhotosFilters() {
                 return filter === 'all' || category === filter;
             }).length;
             
-            if (totalPhotos > limit) {
-                seeMoreBtn.parentElement.style.display = 'block';
-                seeMoreBtn.querySelector('span').textContent = 'See More';
-                seeMoreBtn.querySelector('i').className = 'fas fa-chevron-down';
+            const lowPriorityPhotos = Array.from(photosItems).filter(item => {
+                const category = item.getAttribute('data-category');
+                const priority = item.getAttribute('data-priority');
+                const shouldShow = filter === 'all' || category === filter;
+                return shouldShow && priority === 'low';
+            }).length;
+            
+            if (isMobile()) {
+                // Mobile: show button if there are low-priority images
+                if (lowPriorityPhotos > 0) {
+                    seeMoreBtn.parentElement.style.display = 'block';
+                    seeMoreBtn.querySelector('span').textContent = 'See More';
+                    seeMoreBtn.querySelector('i').className = 'fas fa-chevron-down';
+                } else {
+                    seeMoreBtn.parentElement.style.display = 'none';
+                }
             } else {
-                seeMoreBtn.parentElement.style.display = 'none';
+                // Desktop/tablet: original behavior
+                if (totalPhotos > limit) {
+                    seeMoreBtn.parentElement.style.display = 'block';
+                    seeMoreBtn.querySelector('span').textContent = 'See More';
+                    seeMoreBtn.querySelector('i').className = 'fas fa-chevron-down';
+                } else {
+                    seeMoreBtn.parentElement.style.display = 'none';
+                }
             }
         }, 150);
     }
@@ -338,26 +383,63 @@ function initPhotosFilters() {
     // Handle see more button
     if (seeMoreBtn) {
         seeMoreBtn.addEventListener('click', function() {
-            if (!showingAll) {
-                // Show all photos for current filter
-                showingAll = true;
+            if (isMobile()) {
+                // Check if we're in "show less" mode
+                if (showingAll) {
+                    // Show less - reset to high-priority only
+                    filterPhotos(currentFilter);
+                    return;
+                }
                 
-                photosItems.forEach(item => {
+                // Mobile behavior: show 6 more low-priority images at a time
+                const lowPriorityItems = Array.from(photosItems).filter(item => {
                     const category = item.getAttribute('data-category');
+                    const priority = item.getAttribute('data-priority');
                     const shouldShow = currentFilter === 'all' || category === currentFilter;
-                    
-                    if (shouldShow) {
-                        item.style.display = 'inline-block';
-                        item.classList.remove('filtering-out');
-                        item.classList.add('filtering-in');
-                    }
+                    return shouldShow && priority === 'low';
                 });
                 
-                this.querySelector('span').textContent = 'Show Less';
-                this.querySelector('i').className = 'fas fa-chevron-up';
+                // Show next 6 low-priority images
+                const startIndex = lowPriorityShownCount;
+                const endIndex = Math.min(startIndex + 6, lowPriorityItems.length);
+                
+                for (let i = startIndex; i < endIndex; i++) {
+                    lowPriorityItems[i].style.display = 'inline-block';
+                    lowPriorityItems[i].classList.remove('filtering-out');
+                    lowPriorityItems[i].classList.add('filtering-in');
+                }
+                
+                lowPriorityShownCount = endIndex;
+                
+                // Check if all low-priority images are shown
+                if (lowPriorityShownCount >= lowPriorityItems.length) {
+                    showingAll = true;
+                    this.querySelector('span').textContent = 'Show Less';
+                    this.querySelector('i').className = 'fas fa-chevron-up';
+                }
             } else {
-                // Show limited photos again
-                filterPhotos(currentFilter);
+                // Desktop/tablet behavior: show all or show less
+                if (!showingAll) {
+                    // Show all photos for current filter
+                    showingAll = true;
+                    
+                    photosItems.forEach(item => {
+                        const category = item.getAttribute('data-category');
+                        const shouldShow = currentFilter === 'all' || category === currentFilter;
+                        
+                        if (shouldShow) {
+                            item.style.display = 'inline-block';
+                            item.classList.remove('filtering-out');
+                            item.classList.add('filtering-in');
+                        }
+                    });
+                    
+                    this.querySelector('span').textContent = 'Show Less';
+                    this.querySelector('i').className = 'fas fa-chevron-up';
+                } else {
+                    // Show limited photos again
+                    filterPhotos(currentFilter);
+                }
             }
         });
     }
