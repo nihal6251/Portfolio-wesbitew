@@ -79,6 +79,9 @@ const photosData = {
 };
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize progressive image loading first
+    initImageLoadingManager();
+    
     // Initialize all components
     initThemeToggle();
     initMobileMenu();
@@ -101,6 +104,172 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log('Photos website initialized successfully!');
 });
+
+/* ========================================
+   IMAGE LOADING MANAGER
+   ======================================== */
+function initImageLoadingManager() {
+    // Track loaded images to avoid reloading
+    window.loadedImages = new Set();
+    
+    // Step 1: Load hero-bg first
+    loadHeroImage();
+    
+    // Step 2: Load animation and about section images (don't wait for hero)
+    loadAnimationImages();
+    loadAboutImages();
+    
+    // Step 3: Load photos grid on scroll
+    initPhotosGridLoading();
+}
+
+// Load hero background image
+function loadHeroImage() {
+    const heroImg = document.querySelector('.hero-bg img');
+    if (!heroImg) return;
+    
+    // Add loading spinner
+    const spinner = createLoadingSpinner();
+    heroImg.parentElement.style.position = 'relative';
+    heroImg.parentElement.insertBefore(spinner, heroImg);
+    
+    // Hide image initially
+    heroImg.style.opacity = '0';
+    
+    const img = new Image();
+    img.onload = function() {
+        heroImg.style.opacity = '1';
+        heroImg.classList.add('image-loaded');
+        removeLoadingSpinner(spinner);
+        window.loadedImages.add(heroImg.src);
+    };
+    img.onerror = function() {
+        removeLoadingSpinner(spinner);
+    };
+    img.src = heroImg.src;
+}
+
+// Load animation section images
+function loadAnimationImages() {
+    const animationSection = document.querySelector('.photos-animation');
+    if (!animationSection) return;
+    
+    const images = animationSection.querySelectorAll('img');
+    images.forEach(img => {
+        loadImageWithSpinner(img);
+    });
+}
+
+// Load about section images
+function loadAboutImages() {
+    const aboutSection = document.getElementById('about');
+    if (!aboutSection) return;
+    
+    const images = aboutSection.querySelectorAll('img');
+    images.forEach(img => {
+        loadImageWithSpinner(img);
+    });
+}
+
+// Initialize photos grid loading on scroll
+function initPhotosGridLoading() {
+    const photosSection = document.getElementById('photos');
+    if (!photosSection) return;
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                loadInitialPhotosGridImages();
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    observer.observe(photosSection);
+}
+
+// Load first 12 images in photos grid
+function loadInitialPhotosGridImages() {
+    const photosGrid = document.getElementById('photos-grid');
+    if (!photosGrid) return;
+    
+    const allImages = photosGrid.querySelectorAll('.photos-item img');
+    const first12Images = Array.from(allImages).slice(0, 12);
+    
+    first12Images.forEach(img => {
+        loadImageWithSpinner(img);
+    });
+}
+
+// Load image with spinner
+function loadImageWithSpinner(imgElement) {
+    // Skip if already loaded
+    if (window.loadedImages.has(imgElement.src) || imgElement.complete) {
+        imgElement.classList.add('image-loaded');
+        return Promise.resolve();
+    }
+    
+    return new Promise((resolve, reject) => {
+        const container = imgElement.closest('.photos-item, .animation-photo, .about-image') || imgElement.parentElement;
+        
+        // Add loading spinner
+        const spinner = createLoadingSpinner();
+        container.style.position = 'relative';
+        
+        // Insert spinner before image
+        if (imgElement.parentElement === container) {
+            container.insertBefore(spinner, imgElement);
+        } else {
+            container.appendChild(spinner);
+        }
+        
+        // Hide image initially
+        imgElement.style.opacity = '0';
+        
+        const img = new Image();
+        img.onload = function() {
+            imgElement.style.opacity = '1';
+            imgElement.classList.add('image-loaded');
+            removeLoadingSpinner(spinner);
+            window.loadedImages.add(imgElement.src);
+            resolve();
+        };
+        img.onerror = function() {
+            removeLoadingSpinner(spinner);
+            reject();
+        };
+        img.src = imgElement.src;
+    });
+}
+
+// Load multiple images with spinners (batch loading)
+function loadImagesWithSpinners(images) {
+    const loadPromises = [];
+    
+    images.forEach(img => {
+        loadPromises.push(loadImageWithSpinner(img));
+    });
+    
+    return Promise.all(loadPromises);
+}
+
+// Create loading spinner element
+function createLoadingSpinner() {
+    const spinner = document.createElement('div');
+    spinner.className = 'image-loading-spinner';
+    spinner.innerHTML = '<div class="spinner-circle"></div>';
+    return spinner;
+}
+
+// Remove loading spinner
+function removeLoadingSpinner(spinner) {
+    spinner.classList.add('hidden');
+    setTimeout(() => {
+        if (spinner.parentElement) {
+            spinner.parentElement.removeChild(spinner);
+        }
+    }, 300);
+}
 
 /* ========================================
    THEME TOGGLE FUNCTIONALITY
@@ -366,10 +535,13 @@ function initPhotosFilters() {
     
     // Handle filter button clicks
     filterButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', async function(e) {
             e.preventDefault();
             
             const filter = this.getAttribute('data-filter');
+            
+            // Disable all filter buttons during loading
+            filterButtons.forEach(btn => btn.disabled = true);
             
             // Update active filter button
             filterButtons.forEach(btn => btn.classList.remove('active'));
@@ -377,12 +549,28 @@ function initPhotosFilters() {
             
             // Filter photos
             filterPhotos(filter);
+            
+            // Load visible images after filtering
+            await loadVisiblePhotosImages();
+            
+            // Re-enable filter buttons
+            filterButtons.forEach(btn => btn.disabled = false);
         });
     });
     
+    // Load visible photos images (for category switching)
+    async function loadVisiblePhotosImages() {
+        const visiblePhotos = Array.from(photosItems).filter(item => {
+            return item.style.display !== 'none' && !window.loadedImages.has(item.querySelector('img').src);
+        });
+        
+        const imagesToLoad = visiblePhotos.map(item => item.querySelector('img'));
+        await loadImagesWithSpinners(imagesToLoad);
+    }
+    
     // Handle see more button
     if (seeMoreBtn) {
-        seeMoreBtn.addEventListener('click', function() {
+        seeMoreBtn.addEventListener('click', async function() {
             if (isMobile()) {
                 // Check if we're in "show less" mode
                 if (showingAll) {
@@ -390,6 +578,10 @@ function initPhotosFilters() {
                     filterPhotos(currentFilter);
                     return;
                 }
+                
+                // Disable button during loading
+                this.disabled = true;
+                this.classList.add('loading');
                 
                 // Mobile behavior: show 6 more low-priority images at a time
                 const lowPriorityItems = Array.from(photosItems).filter(item => {
@@ -403,13 +595,22 @@ function initPhotosFilters() {
                 const startIndex = lowPriorityShownCount;
                 const endIndex = Math.min(startIndex + 6, lowPriorityItems.length);
                 
+                const imagesToLoad = [];
                 for (let i = startIndex; i < endIndex; i++) {
                     lowPriorityItems[i].style.display = 'inline-block';
                     lowPriorityItems[i].classList.remove('filtering-out');
                     lowPriorityItems[i].classList.add('filtering-in');
+                    imagesToLoad.push(lowPriorityItems[i].querySelector('img'));
                 }
                 
+                // Load images with spinners
+                await loadImagesWithSpinners(imagesToLoad);
+                
                 lowPriorityShownCount = endIndex;
+                
+                // Re-enable button
+                this.disabled = false;
+                this.classList.remove('loading');
                 
                 // Check if all low-priority images are shown
                 if (lowPriorityShownCount >= lowPriorityItems.length) {
@@ -420,9 +621,14 @@ function initPhotosFilters() {
             } else {
                 // Desktop/tablet behavior: show all or show less
                 if (!showingAll) {
+                    // Disable button during loading
+                    this.disabled = true;
+                    this.classList.add('loading');
+                    
                     // Show all photos for current filter
                     showingAll = true;
                     
+                    const imagesToLoad = [];
                     photosItems.forEach(item => {
                         const category = item.getAttribute('data-category');
                         const shouldShow = currentFilter === 'all' || category === currentFilter;
@@ -431,8 +637,20 @@ function initPhotosFilters() {
                             item.style.display = 'inline-block';
                             item.classList.remove('filtering-out');
                             item.classList.add('filtering-in');
+                            
+                            const img = item.querySelector('img');
+                            if (!window.loadedImages.has(img.src)) {
+                                imagesToLoad.push(img);
+                            }
                         }
                     });
+                    
+                    // Load images with spinners
+                    await loadImagesWithSpinners(imagesToLoad);
+                    
+                    // Re-enable button
+                    this.disabled = false;
+                    this.classList.remove('loading');
                     
                     this.querySelector('span').textContent = 'Show Less';
                     this.querySelector('i').className = 'fas fa-chevron-up';
