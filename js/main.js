@@ -535,37 +535,31 @@ function initPhotosFilters() {
     
     // Handle filter button clicks
     filterButtons.forEach(button => {
-        button.addEventListener('click', async function(e) {
+        button.addEventListener('click', function(e) {
             e.preventDefault();
             
             const filter = this.getAttribute('data-filter');
             
-            // Disable all filter buttons during loading
-            filterButtons.forEach(btn => btn.disabled = true);
-            
-            // Update active filter button
+            // Update active filter button immediately
             filterButtons.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
             
             // Filter photos
             filterPhotos(filter);
             
-            // Load visible images after filtering
-            await loadVisiblePhotosImages();
-            
-            // Re-enable filter buttons
-            filterButtons.forEach(btn => btn.disabled = false);
+            // Load visible images in background (don't await - non-blocking)
+            loadVisiblePhotosImages();
         });
     });
     
     // Load visible photos images (for category switching)
-    async function loadVisiblePhotosImages() {
+    function loadVisiblePhotosImages() {
         const visiblePhotos = Array.from(photosItems).filter(item => {
             return item.style.display !== 'none' && !window.loadedImages.has(item.querySelector('img').src);
         });
         
         const imagesToLoad = visiblePhotos.map(item => item.querySelector('img'));
-        await loadImagesWithSpinners(imagesToLoad);
+        loadImagesWithSpinners(imagesToLoad);
     }
     
     // Handle see more button
@@ -664,8 +658,15 @@ function initPhotosFilters() {
         });
     }
     
-    // Initialize with 'all' filter
-    filterPhotos('all');
+    // Initialize with 'portrait' filter (default category)
+    filterPhotos('portrait');
+    
+    // Set portrait button as active on load
+    const portraitBtn = document.querySelector('[data-filter="portrait"]');
+    if (portraitBtn) {
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        portraitBtn.classList.add('active');
+    }
     
     // Handle window resize
     window.addEventListener('resize', function() {
