@@ -204,6 +204,7 @@ img {
     transform: translateX(0%);
   }
 }
+
 /* @keyframes scrollLeftToRight {
   0% {
     transform: translateX(calc(-100% + 100vw));
@@ -536,6 +537,8 @@ section {
   border: none;
   cursor: pointer;
   padding: 0.5rem;
+  position: relative;
+  z-index: 1001;
 }
 
 .mobile-menu-toggle span {
@@ -574,7 +577,7 @@ section {
     top: 100%;
     left: 0;
     right: 0;
-    background: rgba(0, 0, 0, 0.95) !important;
+    background: rgba(0, 0, 0, 0.75) !important;
     backdrop-filter: blur(20px);
     flex-direction: column;
     padding: var(--spacing-lg);
@@ -584,6 +587,7 @@ section {
     opacity: 0;
     visibility: hidden;
     transition: all var(--transition-normal);
+    z-index: 1000;
   }
 
   .nav-menu.active {
@@ -900,7 +904,7 @@ section {
 
   .hero-bg img {
 
-    height: 110vh !important;
+    height: 114vh !important;
     width: 100vw !important;
     object-fit: cover !important;
     object-position: center 30% !important;
@@ -914,7 +918,7 @@ section {
 
   .btn {
     font-size: 12px;
-    width: 40%;
+    width: 49%;
     max-width: 280px;
   }
 
@@ -1365,13 +1369,12 @@ section {
   }
 }
 
-.comigsoon-video {
-  padding-top: 5px;
+.coming-soon-content {
   display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  gap: 10px;
+  padding: 30px;
 }
 
 
@@ -1381,21 +1384,31 @@ section {
   gap: 15px;
   justify-content: center;
   align-items: center;
+  z-index: 1001;
 }
 
 .loopvideo video {
   padding-top: 25px;
   width: 500px;
-  border-radius: 10px;
+  /* border-radius: 10px; */
+  /* z-index: 1001; */
 }
 
 @media (max-width: 768px) {
   .loopvideo video {
     padding-top: 25px;
     width: 350px;
-    border-radius: 10px;
+    /* border-radius: 10px; */
   }
 }
+@media (min-width: 768px) {
+.coming-soon-wrapper{
+  width: 80vw;
+}
+}
+
+
+
 
 /* ========================================
    IMAGE LOADING SPINNER STYLES
@@ -1467,6 +1480,7 @@ img.image-loaded {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
