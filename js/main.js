@@ -320,13 +320,53 @@ function initMobileMenu() {
     const navMenu = document.getElementById('nav-menu');
     const navLinks = document.querySelectorAll('.nav-link');
     
-    // Toggle mobile menu
-    mobileToggle.addEventListener('click', function() {
-        this.classList.toggle('active');
-        navMenu.classList.toggle('active');
+    if (!mobileToggle || !navMenu) return;
+    
+    let isToggling = false;
+    
+    // Toggle mobile menu with touch and click support
+    const toggleMenu = function(e) {
+        // Prevent double-firing during animation
+        if (isToggling) {
+            e.preventDefault();
+            return;
+        }
         
-        // Prevent body scroll when menu is open
-        document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+        e.preventDefault();
+        e.stopPropagation();
+        
+        isToggling = true;
+        const isActive = navMenu.classList.contains('active');
+        
+        if (isActive) {
+            // Closing menu
+            mobileToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        } else {
+            // Opening menu
+            mobileToggle.classList.add('active');
+            navMenu.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Reset toggle flag after animation completes
+        setTimeout(() => {
+            isToggling = false;
+        }, 350);
+    };
+    
+    // Use touchstart instead of touchend to feel more responsive
+    mobileToggle.addEventListener('touchstart', function(e) {
+        toggleMenu(e);
+    }, { passive: false });
+    
+    // Also listen to click for desktop testing
+    mobileToggle.addEventListener('click', function(e) {
+        // Only handle click if not already handled by touch
+        if (e.type === 'click' && e.detail !== 0) {
+            toggleMenu(e);
+        }
     });
     
     // Close mobile menu when clicking on a link
@@ -335,17 +375,21 @@ function initMobileMenu() {
             mobileToggle.classList.remove('active');
             navMenu.classList.remove('active');
             document.body.style.overflow = '';
+            isToggling = false;
         });
     });
     
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!mobileToggle.contains(e.target) && !navMenu.contains(e.target)) {
+    // Close mobile menu when tapping outside
+    document.addEventListener('touchstart', function(e) {
+        if (navMenu.classList.contains('active') && 
+            !mobileToggle.contains(e.target) && 
+            !navMenu.contains(e.target)) {
             mobileToggle.classList.remove('active');
             navMenu.classList.remove('active');
             document.body.style.overflow = '';
+            isToggling = false;
         }
-    });
+    }, { passive: true });
 }
 
 /* ========================================

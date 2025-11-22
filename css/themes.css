@@ -226,9 +226,7 @@
 }
 
 .profile-img {
-
-  height: 57vh;
-  width: 130vw;
+  width: 140vw;
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-card);
   transition: transform var(--transition-normal);
