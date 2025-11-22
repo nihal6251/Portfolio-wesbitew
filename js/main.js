@@ -467,9 +467,9 @@ function initPhotosFilters() {
             // On mobile, show all high-priority images first
             if (isMobile()) {
                 photosItems.forEach(item => {
-                    const category = item.getAttribute('data-category');
+                    const categories = item.getAttribute('data-category').split(' ');
                     const priority = item.getAttribute('data-priority');
-                    const shouldShow = filter === 'all' || category === filter;
+                    const shouldShow = filter === 'all' || categories.includes(filter);
                     
                     if (shouldShow && priority === 'high') {
                         item.style.display = 'inline-block';
@@ -483,8 +483,8 @@ function initPhotosFilters() {
             } else {
                 // Desktop/tablet: original behavior
                 photosItems.forEach(item => {
-                    const category = item.getAttribute('data-category');
-                    const shouldShow = filter === 'all' || category === filter;
+                    const categories = item.getAttribute('data-category').split(' ');
+                    const shouldShow = filter === 'all' || categories.includes(filter);
                     
                     if (shouldShow && visibleCount < limit) {
                         item.style.display = 'inline-block';
@@ -500,14 +500,14 @@ function initPhotosFilters() {
             
             // Show/hide see more button
             const totalPhotos = Array.from(photosItems).filter(item => {
-                const category = item.getAttribute('data-category');
-                return filter === 'all' || category === filter;
+                const categories = item.getAttribute('data-category').split(' ');
+                return filter === 'all' || categories.includes(filter);
             }).length;
             
             const lowPriorityPhotos = Array.from(photosItems).filter(item => {
-                const category = item.getAttribute('data-category');
+                const categories = item.getAttribute('data-category').split(' ');
                 const priority = item.getAttribute('data-priority');
-                const shouldShow = filter === 'all' || category === filter;
+                const shouldShow = filter === 'all' || categories.includes(filter);
                 return shouldShow && priority === 'low';
             }).length;
             
@@ -580,9 +580,9 @@ function initPhotosFilters() {
                 
                 // Mobile behavior: show 6 more low-priority images at a time
                 const lowPriorityItems = Array.from(photosItems).filter(item => {
-                    const category = item.getAttribute('data-category');
+                    const categories = item.getAttribute('data-category').split(' ');
                     const priority = item.getAttribute('data-priority');
-                    const shouldShow = currentFilter === 'all' || category === currentFilter;
+                    const shouldShow = currentFilter === 'all' || categories.includes(currentFilter);
                     return shouldShow && priority === 'low';
                 });
                 
@@ -624,8 +624,8 @@ function initPhotosFilters() {
                     
                     const imagesToLoad = [];
                     photosItems.forEach(item => {
-                        const category = item.getAttribute('data-category');
-                        const shouldShow = currentFilter === 'all' || category === currentFilter;
+                        const categories = item.getAttribute('data-category').split(' ');
+                        const shouldShow = currentFilter === 'all' || categories.includes(currentFilter);
                         
                         if (shouldShow) {
                             item.style.display = 'inline-block';
@@ -1557,4 +1557,49 @@ window.addEventListener('load', function() {
     }
 });
 
+
 console.log('Photos website JavaScript loaded successfully!');
+
+// function addImages(csvPath) {
+//     // Return a function so `window.onload = addImages("assets/img.csv");` sets the onload handler.
+//     return function() {
+//         const photosGrid = document.getElementById('photos-grid');
+//         if (!photosGrid) {
+//             console.warn('photos-grid element not found');
+//             return;
+//         }
+
+//         fetch(csvPath)
+//             .then(response => {
+//                 if (!response.ok) throw new Error('Network response was not ok');
+//                 return response.text();
+//             })
+//             .then(text => {
+//                 // Basic CSV parsing: split lines, take first column of each row (handles optional header).
+//                 const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+//                 // If first line looks like a header (contains non-url text), drop it.
+//                 const possibleHeader = lines.length && !/^https?:\/\//i.test(lines[0]) && !/^\/|^[\w-]+:/.test(lines[0]);
+//                 const dataLines = possibleHeader ? lines.slice(1) : lines;
+
+//                 const itemsHtml = dataLines.map(line => {
+//                     // take first column (CSV may have multiple columns)
+//                     const cols = line.split(',');
+//                     let link = cols[0].trim().replace(/^"|"$/g, '');
+//                     // Skip empty links
+//                     if (!link) return '';
+//                     return `<div class="photos-item" data-category="portrait" data-priority="high">
+//                                 <div class="photos-image">
+//                                     <img src="${link}" alt="Creative Portrait" width="800" height="1000" decoding="async">
+//                                 </div>
+//                             </div>`;
+//                 }).join('');
+
+//                 photosGrid.innerHTML = itemsHtml;
+//             })
+//             .catch(err => {
+//                 console.error('Failed to load or parse CSV:', err);
+//             });
+//     };
+// }
+
+// window.onload=addImages("assets/img.csv");
