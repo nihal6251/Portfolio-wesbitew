@@ -2,14 +2,11 @@
    GALLERY PAGE JAVASCRIPT
    ======================================== */
 
-// photosData is already loaded from main.js
-
 // Gallery categories with metadata
 const galleryCategories = {
-    portrait: { name: 'Portrait Photography', count: 15, coverImage: 'https://picsum.photos/400/600?random=1' },
-    landscape: { name: 'Landscape Photography', count: 15, coverImage: 'https://picsum.photos/600/400?random=16' },
-    commercial: { name: 'Commercial Photography', count: 15, coverImage: 'https://picsum.photos/500/500?random=31' },
-    event: { name: 'Event Photography', count: 15, coverImage: 'https://picsum.photos/600/450?random=46' }
+    portrait: { name: 'Portrait Photography', icon: 'fa-user' },
+    landscape: { name: 'Landscape Photography', icon: 'fa-mountain' },
+    events: { name: 'Events Photography', icon: 'fa-camera' }
 };
 
 // Current gallery state
@@ -20,20 +17,13 @@ let galleryLightboxIndex = 0;
 // Initialize gallery page
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Gallery page DOM loaded');
-    
-    // Wait for photosData to be available
-    if (typeof photosData === 'undefined') {
-        console.log('photosData not yet available, waiting...');
-        setTimeout(initGallery, 100);
-    } else {
-        initGallery();
-    }
+    initGallery();
 });
 
 function initGallery() {
     console.log('Initializing gallery...');
     
-    // Initialize theme toggle (reuse from main.js)
+    // Initialize theme toggle and mobile menu
     initThemeToggle();
     initMobileMenu();
     
@@ -41,68 +31,95 @@ function initGallery() {
     const urlParams = new URLSearchParams(window.location.search);
     galleryCategory = urlParams.get('category') || 'portrait';
     
-    // Load gallery
-    loadGallery(galleryCategory);
-    loadOtherGalleries();
-    
-    // Initialize lightbox
-    initLightbox();
+    // Fetch photos from index.html and load gallery
+    fetchPhotosFromHomepage(galleryCategory);
     
     console.log('Gallery page initialized successfully!');
 }
 
+// Fetch photos from homepage index.html
+async function fetchPhotosFromHomepage(category) {
+    try {
+        const response = await fetch('index.html');
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        
+        // Get all photos items that match the category
+        const photosItems = doc.querySelectorAll('.photos-item');
+        galleryImages = [];
+        
+        photosItems.forEach((item, index) => {
+            const categories = item.getAttribute('data-category').trim().split(' ');
+            
+            // Check if this photo belongs to the current category (single OR multi-category)
+            if (categories.includes(category)) {
+                const img = item.querySelector('img');
+                if (img) {
+                    galleryImages.push({
+                        src: img.getAttribute('src'),
+                        alt: img.getAttribute('alt') || 'Photo',
+                        width: img.getAttribute('width'),
+                        height: img.getAttribute('height')
+                    });
+                }
+            }
+        });
+        
+        console.log(`Found ${galleryImages.length} photos for category: ${category}`);
+        
+        // Load the gallery with fetched images
+        loadGallery(category);
+        loadOtherGalleries();
+        initLightbox();
+        
+    } catch (error) {
+        console.error('Error fetching photos:', error);
+    }
+}
+
 // Load gallery content
 function loadGallery(category) {
-    console.log('Loading gallery for category:', category);
-    console.log('photosData available:', typeof photosData !== 'undefined', photosData);
-    
     const title = document.getElementById('gallery-title');
     const subtitle = document.getElementById('gallery-subtitle');
     const grid = document.getElementById('masonry-grid');
     
-    console.log('Elements found:', { title, subtitle, grid });
-    
     if (!title || !subtitle || !grid) {
-        console.error('Missing required DOM elements:', { title, subtitle, grid });
+        console.error('Missing required DOM elements');
         return;
     }
     
-    if (typeof photosData === 'undefined') {
-        console.error('photosData is not defined! Gallery cannot load.');
-        return;
-    }
-    
-    galleryImages = photosData[category] || [];
     const categoryData = galleryCategories[category];
     
-    console.log('Images for category:', galleryImages.length);
-    
-    if (!galleryImages.length) {
-        console.error(`No images found for category: ${category}`);
-        return;
-    }
-    
-    // Update title and subtitle
-    title.textContent = categoryData.name;
+    // Update header with breadcrumb and title
+    const categoryTitle = categoryData ? categoryData.name : category.charAt(0).toUpperCase() + category.slice(1);
+    title.innerHTML = `
+        <a href="index.html#photos" class="breadcrumb-link">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+        <span class="breadcrumb-separator">/</span>
+        <span>${categoryTitle}</span>
+    `;
     subtitle.textContent = `${galleryImages.length} photos in this collection`;
     
     // Clear and populate grid
     grid.innerHTML = '';
     
+    if (galleryImages.length === 0) {
+        grid.innerHTML = '<p style="text-align: center; padding: 2rem;">No photos found in this category.</p>';
+        return;
+    }
+    
     galleryImages.forEach((image, index) => {
-        console.log('Adding image:', image.title);
-        
         const item = document.createElement('div');
         item.className = 'masonry-item';
         item.setAttribute('data-index', index);
         
+        const aspectRatio = image.width && image.height ? (parseFloat(image.height) / parseFloat(image.width) * 100) : 100;
+        
         item.innerHTML = `
-            <img src="${image.src}" alt="${image.title}" loading="lazy">
-            <div class="masonry-overlay">
-                <div class="masonry-info">
-                    <h3>${image.title}</h3>
-                    <p>${image.description}</p>
-                </div>
+            <div class="masonry-image-container" style="padding-bottom: ${aspectRatio}%">
+                <img src="${image.src}" alt="${image.alt}" loading="lazy">
             </div>
         `;
         
@@ -114,28 +131,82 @@ function loadGallery(category) {
 }
 
 // Load other galleries suggestions
-function loadOtherGalleries() {
+async function loadOtherGalleries() {
     const container = document.getElementById('galleries-suggestions');
+    if (!container) return;
+    
     container.innerHTML = '';
     
-    Object.keys(galleryCategories).forEach(category => {
-        if (category === galleryCategory) return; // Skip current gallery
+    try {
+        const response = await fetch('index.html');
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const photosItems = doc.querySelectorAll('.photos-item');
         
-        const categoryData = galleryCategories[category];
-        const suggestion = document.createElement('a');
-        suggestion.href = `gallery.html?category=${category}`;
-        suggestion.className = 'gallery-suggestion';
+        // Get other categories
+        const otherCategories = Object.keys(galleryCategories).filter(cat => cat !== galleryCategory);
         
-        suggestion.innerHTML = `
-            <img src="${categoryData.coverImage}" alt="${categoryData.name}">
-            <div class="gallery-suggestion-overlay">
-                <h3>${categoryData.name}</h3>
-                <p>${categoryData.count} photos</p>
-            </div>
-        `;
-        
-        container.appendChild(suggestion);
-    });
+        otherCategories.forEach(category => {
+            // Find first image for this category (thumbnail) - prefer single-category
+            let thumbnailSrc = '';
+            // First try to find a single-category image
+            for (let item of photosItems) {
+                const categories = item.getAttribute('data-category').trim().split(' ');
+                if (categories.includes(category) && categories.length === 1) {
+                    const img = item.querySelector('img');
+                    if (img) {
+                        thumbnailSrc = img.getAttribute('src');
+                        break;
+                    }
+                }
+            }
+            // If no single-category found, use any image with this category
+            if (!thumbnailSrc) {
+                for (let item of photosItems) {
+                    const categories = item.getAttribute('data-category').trim().split(' ');
+                    if (categories.includes(category)) {
+                        const img = item.querySelector('img');
+                        if (img) {
+                            thumbnailSrc = img.getAttribute('src');
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            // Count ALL photos in this category (including multi-category)
+            let count = 0;
+            photosItems.forEach(item => {
+                const categories = item.getAttribute('data-category').trim().split(' ');
+                if (categories.includes(category)) {
+                    count++;
+                }
+            });
+            
+            const categoryData = galleryCategories[category];
+            const suggestion = document.createElement('a');
+            suggestion.href = `gallery.html?category=${category}`;
+            suggestion.className = 'gallery-suggestion';
+            
+            suggestion.innerHTML = `
+                <div class="gallery-suggestion-image">
+                    <img src="${thumbnailSrc}" alt="${categoryData.name}" loading="lazy">
+                </div>
+                <div class="gallery-suggestion-overlay">
+                    <div class="gallery-suggestion-info">
+                        <i class="fas ${categoryData.icon}"></i>
+                        <h3>${categoryData.name}</h3>
+                        <p>${count} photos</p>
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(suggestion);
+        });
+    } catch (error) {
+        console.error('Error loading other galleries:', error);
+    }
 }
 
 // Lightbox functionality
@@ -175,8 +246,6 @@ function initLightbox() {
 function openLightbox(index) {
     const lightbox = document.getElementById('lightbox');
     const lightboxImage = document.getElementById('lightbox-image');
-    const lightboxTitle = document.getElementById('lightbox-title');
-    const lightboxDescription = document.getElementById('lightbox-description');
     const lightboxPrev = document.getElementById('lightbox-prev');
     const lightboxNext = document.getElementById('lightbox-next');
     
@@ -185,9 +254,7 @@ function openLightbox(index) {
     
     // Update lightbox content
     lightboxImage.src = image.src;
-    lightboxImage.alt = image.title;
-    lightboxTitle.textContent = image.title;
-    lightboxDescription.textContent = image.description;
+    lightboxImage.alt = image.alt;
     
     // Update navigation buttons
     lightboxPrev.disabled = index === 0;

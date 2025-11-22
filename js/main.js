@@ -515,17 +515,17 @@ function initPhotosFilters() {
                 // Mobile: show button if there are low-priority images
                 if (lowPriorityPhotos > 0) {
                     seeMoreBtn.parentElement.style.display = 'block';
-                    seeMoreBtn.querySelector('span').textContent = 'See More';
-                    seeMoreBtn.querySelector('i').className = 'fas fa-chevron-down';
+                    seeMoreBtn.querySelector('span').textContent = 'View Full Gallery';
+                    seeMoreBtn.querySelector('i').className = 'fas fa-arrow-right';
                 } else {
                     seeMoreBtn.parentElement.style.display = 'none';
                 }
             } else {
-                // Desktop/tablet: original behavior
+                // Desktop/tablet: show button if there are more photos
                 if (totalPhotos > limit) {
                     seeMoreBtn.parentElement.style.display = 'block';
-                    seeMoreBtn.querySelector('span').textContent = 'See More';
-                    seeMoreBtn.querySelector('i').className = 'fas fa-chevron-down';
+                    seeMoreBtn.querySelector('span').textContent = 'View Full Gallery';
+                    seeMoreBtn.querySelector('i').className = 'fas fa-arrow-right';
                 } else {
                     seeMoreBtn.parentElement.style.display = 'none';
                 }
@@ -562,99 +562,11 @@ function initPhotosFilters() {
         loadImagesWithSpinners(imagesToLoad);
     }
     
-    // Handle see more button
+    // Handle see more button - redirect to gallery page
     if (seeMoreBtn) {
-        seeMoreBtn.addEventListener('click', async function() {
-            if (isMobile()) {
-                // Check if we're in "show less" mode - always allow this without disabling
-                if (showingAll) {
-                    // Show less - reset to high-priority only
-                    filterPhotos(currentFilter);
-                    // Scroll to top of photos section
-                    document.getElementById('photos').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    return;
-                }
-                
-                // Don't disable button - keep it interactive
-                this.classList.add('loading');
-                
-                // Mobile behavior: show 6 more low-priority images at a time
-                const lowPriorityItems = Array.from(photosItems).filter(item => {
-                    const categories = item.getAttribute('data-category').split(' ');
-                    const priority = item.getAttribute('data-priority');
-                    const shouldShow = currentFilter === 'all' || categories.includes(currentFilter);
-                    return shouldShow && priority === 'low';
-                });
-                
-                // Show next 6 low-priority images
-                const startIndex = lowPriorityShownCount;
-                const endIndex = Math.min(startIndex + 6, lowPriorityItems.length);
-                
-                const imagesToLoad = [];
-                for (let i = startIndex; i < endIndex; i++) {
-                    lowPriorityItems[i].style.display = 'inline-block';
-                    lowPriorityItems[i].classList.remove('filtering-out');
-                    lowPriorityItems[i].classList.add('filtering-in');
-                    imagesToLoad.push(lowPriorityItems[i].querySelector('img'));
-                }
-                
-                // Update state immediately so Show Less is available
-                lowPriorityShownCount = endIndex;
-                
-                // Check if all low-priority images are shown
-                if (lowPriorityShownCount >= lowPriorityItems.length) {
-                    showingAll = true;
-                    this.querySelector('span').textContent = 'Show Less';
-                    this.querySelector('i').className = 'fas fa-chevron-up';
-                }
-                
-                // Load images with spinners (don't await - let it happen in background)
-                loadImagesWithSpinners(imagesToLoad).finally(() => {
-                    this.classList.remove('loading');
-                });
-                
-            } else {
-                // Desktop/tablet behavior: show all or show less
-                if (!showingAll) {
-                    // Don't disable button - keep it interactive
-                    this.classList.add('loading');
-                    
-                    // Show all photos for current filter
-                    showingAll = true;
-                    
-                    const imagesToLoad = [];
-                    photosItems.forEach(item => {
-                        const categories = item.getAttribute('data-category').split(' ');
-                        const shouldShow = currentFilter === 'all' || categories.includes(currentFilter);
-                        
-                        if (shouldShow) {
-                            item.style.display = 'inline-block';
-                            item.classList.remove('filtering-out');
-                            item.classList.add('filtering-in');
-                            
-                            const img = item.querySelector('img');
-                            if (!window.loadedImages.has(img.src)) {
-                                imagesToLoad.push(img);
-                            }
-                        }
-                    });
-                    
-                    // Update button text immediately
-                    this.querySelector('span').textContent = 'Show Less';
-                    this.querySelector('i').className = 'fas fa-chevron-up';
-                    
-                    // Load images with spinners (don't await - let it happen in background)
-                    loadImagesWithSpinners(imagesToLoad).finally(() => {
-                        this.classList.remove('loading');
-                    });
-                    
-                } else {
-                    // Show limited photos again
-                    filterPhotos(currentFilter);
-                    // Scroll to top of photos section
-                    document.getElementById('photos').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            }
+        seeMoreBtn.addEventListener('click', function() {
+            // Redirect to gallery page with current category
+            window.location.href = `gallery.html?category=${currentFilter}`;
         });
     }
     
