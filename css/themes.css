@@ -809,7 +809,7 @@
 
   .contact-info {
     flex-direction: column;
-    gap: 30px;
+    gap: 5px;
   }
 
   .contact-item {
