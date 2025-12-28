@@ -19,6 +19,9 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/themes.css">
     <link rel="stylesheet" href="css/gallery.css">
+    
+    <!-- Netlify Identity Widget -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 
 <body class="light-theme">
@@ -125,6 +128,19 @@
     <!-- JavaScript Files -->
     <script src="js/main.js"></script>
     <script src="js/gallery.js"></script>
+    
+    <!-- Netlify Identity Widget -->
+    <script>
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
+            });
+          }
+        });
+      }
+    </script>
 </body>
 
 </html>

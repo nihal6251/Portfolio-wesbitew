@@ -1,0 +1,71 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Publish mode - editorial workflow allows drafts
+publish_mode: simple
+
+# Media files will be stored in the repo under assets/images
+media_folder: "assets/images"
+public_folder: "/assets/images"
+
+# Collections define the structure of content
+collections:
+  # Photos Collection
+  - name: "photos"
+    label: "Photos"
+    folder: "content/photos"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Image", name: "image", widget: "image" }
+      - { label: "Alt Text", name: "alt", widget: "string" }
+      - {
+          label: "Categories",
+          name: "categories",
+          widget: "select",
+          multiple: true,
+          options: ["portrait", "landscape", "events"]
+        }
+      - {
+          label: "Priority",
+          name: "priority",
+          widget: "select",
+          options: ["high", "low"],
+          default: "low"
+        }
+      - { label: "Width", name: "width", widget: "number", default: 800 }
+      - { label: "Height", name: "height", widget: "number", default: 1000 }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+
+  # Homepage Settings
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "Homepage Hero"
+        name: "hero"
+        file: "content/settings/hero.json"
+        fields:
+          - { label: "Hero Title", name: "title", widget: "string" }
+          - { label: "Hero Subtitle", name: "subtitle", widget: "string" }
+          - { label: "Hero Description", name: "description", widget: "text" }
+          - { label: "Hero Background Image", name: "backgroundImage", widget: "image" }
+
+      - label: "About Section"
+        name: "about"
+        file: "content/settings/about.json"
+        fields:
+          - { label: "Profile Image", name: "profileImage", widget: "image" }
+          - { label: "Bio Paragraph 1", name: "bio1", widget: "text" }
+          - { label: "Bio Paragraph 2", name: "bio2", widget: "text" }
+
+      - label: "Contact Info"
+        name: "contact"
+        file: "content/settings/contact.json"
+        fields:
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "Phone", name: "phone", widget: "string" }
+          - { label: "Location", name: "location", widget: "string" }
+          - { label: "Instagram URL", name: "instagram", widget: "string" }
+          - { label: "Facebook URL", name: "facebook", widget: "string" }
