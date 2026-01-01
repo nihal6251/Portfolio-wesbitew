@@ -31,7 +31,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap"
         rel="stylesheet">
-    
+
     <!-- Netlify Identity Widget -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
@@ -239,6 +239,15 @@
                     </div>
                 </div>
 
+
+
+                <div class="photos-item" data-category="portrait events" data-priority="high">
+                    <div class="photos-image">
+                        <img src="https://res.cloudinary.com/dekzrkmei/image/upload/f_auto,q_auto/v1767266209/DSC04560_m39e7q.jpg"
+                            alt="Party Event" width="800" height="1000" loading="lazy" decoding="async">
+                    </div>
+                </div>
+
                 <div class="photos-item" data-category="portrait events" data-priority="high">
                     <div class="photos-image">
                         <img src="https://res.cloudinary.com/dekzrkmei/image/upload/f_auto,q_auto/v1762830694/ps21_d15ulg.jpg"
@@ -271,6 +280,8 @@
                     </div>
                 </div>
 
+
+
                 <div class="photos-item" data-category="portrait" data-priority="high">
                     <div class="photos-image">
                         <img src="https://res.cloudinary.com/dekzrkmei/image/upload/v1763802970/ps3_nhv50z.jpg"
@@ -278,6 +289,13 @@
                     </div>
                 </div>
 
+
+                <div class="photos-item" data-category="portrait events" data-priority="high">
+                    <div class="photos-image">
+                        <img src="https://res.cloudinary.com/dekzrkmei/image/upload/f_auto,q_auto/v1767266209/DSC04863_lh4hjk.jpg"
+                            alt="Party Event" width="800" height="1000" loading="lazy" decoding="async">
+                    </div>
+                </div>
                 <div class="photos-item" data-category="portrait" data-priority="high">
                     <div class="photos-image">
                         <img src="//images.pixieset.com/742644201/b9c937e996c9dc44dd4b484307ddf832-xxlarge.jpg"
@@ -563,6 +581,7 @@
                 <!-- ==================== EVENTS PHOTOS - HIGH PRIORITY ==================== -->
 
 
+
                 <div class="photos-item" data-category="events" data-priority="high">
                     <div class="photos-image">
                         <img src="https://res.cloudinary.com/dekzrkmei/image/upload/f_auto,q_auto/v1762830674/ps4_ajtgfr.jpg"
@@ -603,14 +622,34 @@
                 </div>
                 <div class="photos-item" data-category="events" data-priority="high">
                     <div class="photos-image">
-                        <img src="https://res.cloudinary.com/dekzrkmei/image/upload/f_auto,q_auto/v1762830695/A9_dyko64.jpg"
+                        <img src="https://res.cloudinary.com/dekzrkmei/image/upload/f_auto,q_auto/DSC04650_abq0qx.jpg"
+                            alt="Party Event" width="800" height="1000" loading="lazy" decoding="async">
+                    </div>
+                </div>
+
+
+                <div class="photos-item" data-category="events" data-priority="high">
+                    <div class="photos-image">
+                        <img src="https://res.cloudinary.com/dekzrkmei/image/upload/f_auto,q_auto/DSC04578_pnfesb.jpg"
                             alt="Party Event" width="800" height="1000" loading="lazy" decoding="async">
                     </div>
                 </div>
 
 
 
+
+
+
                 <!-- ==================== EVENTS PHOTOS - LOW PRIORITY ==================== -->
+
+
+                <div class="photos-item" data-category="events" data-priority="low">
+                    <div class="photos-image">
+                        <img src="https://res.cloudinary.com/dekzrkmei/image/upload/f_auto,q_auto/v1767266208/DSC04408_baitv3.jpg"
+                            alt="Party Event" width="800" height="1000" loading="lazy" decoding="async">
+                    </div>
+                </div>
+
                 <div class="photos-item" data-category="events" data-priority="low">
                     <div class="photos-image">
                         <img src="https://res.cloudinary.com/dekzrkmei/image/upload/f_auto,q_auto/v1762830688/ps20_u7e0gc.jpg"
@@ -632,7 +671,12 @@
                             alt="Party Event" width="800" height="1000" loading="lazy" decoding="async">
                     </div>
                 </div>
-
+                <div class="photos-item" data-category="events" data-priority="low">
+                    <div class="photos-image">
+                        <img src="https://res.cloudinary.com/dekzrkmei/image/upload/f_auto,q_auto/DSC04770_mamlpy.jpg"
+                            alt="Party Event" width="800" height="1000" loading="lazy" decoding="async">
+                    </div>
+                </div>
 
                 <div class="photos-item" data-category="events" data-priority="low">
                     <div class="photos-image">
@@ -640,6 +684,7 @@
                             alt="Party Event" width="800" height="1000" loading="lazy" decoding="async">
                     </div>
                 </div>
+
 
 
                 <!-- ==================== MULTI-CATEGORY PHOTOS (portrait landscape) ==================== -->
@@ -1077,18 +1122,18 @@
 
     <!-- JavaScript Files -->
     <script src="js/main.js"></script>
-    
+
     <!-- Netlify Identity Widget - Auto login redirect -->
     <script>
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => {
+                        document.location.href = "/admin/";
+                    });
+                }
             });
-          }
-        });
-      }
+        }
     </script>
 
 </body>
